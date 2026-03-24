@@ -1,25 +1,28 @@
 const express = require("express");
 const cors = require("cors");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/download", async (req, res) => {
+app.post("/download", (req, res) => {
   const { url } = req.body;
 
-  try {
-    // Example free API (change if needed)
-    const api = `https://api.vevioz.com/api/button/mp4?url=${url}`;
-
-    res.json({
-      download_url: api
-    });
-
-  } catch (err) {
-    res.status(500).json({ error: "Failed" });
+  if (!url) {
+    return res.status(400).json({ error: "No URL provided" });
   }
+
+  // temporary test (direct open link)
+  res.json({
+    download_url: url
+  });
 });
 
-app.listen(3000, () => console.log("Server running"));
+app.get("/", (req, res) => {
+  res.send("Server is running 🚀");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server started on port " + PORT);
+});
