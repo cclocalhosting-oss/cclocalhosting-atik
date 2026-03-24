@@ -2,17 +2,22 @@
 <html>
 <head>
   <title>My Video Site</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Upload Video</h2>
+<h1>🎬 My Video Website</h1>
 
-<form id="uploadForm">
-  <input type="file" name="video" required />
-  <button type="submit">Upload</button>
-</form>
+<div class="upload-box">
+  <h2>Upload Video</h2>
 
-<h2>Videos</h2>
+  <form id="uploadForm">
+    <input type="file" name="video" required />
+    <button type="submit">Upload</button>
+  </form>
+</div>
+
+<h2>📺 Videos</h2>
 <div id="videos"></div>
 
 <script>
@@ -28,6 +33,8 @@ form.addEventListener("submit", async (e) => {
     body: formData,
   });
 
+  alert("Upload done!");
+
   loadVideos();
 });
 
@@ -39,12 +46,15 @@ async function loadVideos() {
   container.innerHTML = "";
 
   videos.forEach(video => {
+    const box = document.createElement("div");
+    box.classList.add("video-box");
+
     const vid = document.createElement("video");
     vid.src = "/uploads/" + video;
     vid.controls = true;
-    vid.width = 300;
 
-    container.appendChild(vid);
+    box.appendChild(vid);
+    container.appendChild(box);
   });
 }
 
