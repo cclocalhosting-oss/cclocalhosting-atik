@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Real Video Downloader</title>
+  <title>Pro Downloader</title>
 </head>
-
 <body style="text-align:center; font-family:Arial;">
 
-  <h1>Video Downloader</h1>
+<h1>Pro Video Downloader</h1>
 
-  <input type="text" id="link" placeholder="Paste video link" style="width:300px; padding:10px;">
-  <br><br>
+<input type="text" id="link" placeholder="Paste link">
+<button onclick="download()">Download</button>
 
-  <button onclick="download()" style="padding:10px 20px;">Download</button>
+<script>
+function download() {
+  let url = document.getElementById("link").value;
 
-  <div id="result" style="margin-top:20px;"></div>
-
-  <script>
-    function download() {
-      let url = document.getElementById("link").value;
-
-      if(url === "") {
-        alert("Enter link!");
-        return;
-      }
-
-      // API call
-      let api = "https://api.vevioz.com/api/button/mp4?url=" + url;
-
-      document.getElementById("result").innerHTML =
-        "<iframe src='" + api + "' width='300' height='200'></iframe>";
-    }
-  </script>
+  fetch("https://YOUR-BACKEND.onrender.com/download", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ url })
+  })
+  .then(res => res.json())
+  .then(data => {
+    window.open(data.download_url);
+  });
+}
+</script>
 
 </body>
 </html>
