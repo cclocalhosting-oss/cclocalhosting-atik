@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Website</title>
+  <meta charset="UTF-8">
+  <title>Video Downloader</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1>Welcome 😄</h1>
-  <p>Eta amar website</p>
+
+  <h1>Video Downloader</h1>
+
+  <input type="text" id="link" placeholder="Paste video link here">
+  <br><br>
+  <button onclick="downloadVideo()">Download</button>
+
+  <p id="result"></p>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+
 </body>
 </html>
