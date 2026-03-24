@@ -1,73 +1,104 @@
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pro Downloader</title>
 
-/* Card */
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  text-align: center;
-  width: 300px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  animation: fadeIn 1s ease;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-/* Title animation */
-h1 {
-  margin-bottom: 20px;
-  animation: slideDown 0.8s ease;
-}
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease;
+    }
 
-/* Input */
-input {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  outline: none;
-  transition: 0.3s;
-}
+    h1 {
+      margin-bottom: 20px;
+      animation: slideDown 0.8s ease;
+    }
 
-input:focus {
-  border-color: #4facfe;
-  box-shadow: 0 0 10px rgba(79,172,254,0.5);
-}
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      outline: none;
+      transition: 0.3s;
+    }
 
-/* Button */
-button {
-  width: 100%;
-  padding: 10px;
-  background: #4facfe;
-  border: none;
-  color: white;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    input:focus {
+      border-color: #4facfe;
+      box-shadow: 0 0 10px rgba(79,172,254,0.5);
+    }
 
-button:hover {
-  background: #00c6ff;
-  transform: scale(1.05);
-}
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4facfe;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-/* Animations */
-@keyframes fadeIn {
-  from {opacity: 0; transform: scale(0.9);}
-  to {opacity: 1; transform: scale(1);}
-}
+    button:hover {
+      background: #00c6ff;
+      transform: scale(1.05);
+    }
 
-@keyframes slideDown {
-  from {opacity: 0; transform: translateY(-20px);}
-  to {opacity: 1; transform: translateY(0);}
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.9);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>Pro Video Downloader</h1>
+
+  <input type="text" id="link" placeholder="Paste link">
+  <button onclick="download()">Download</button>
+</div>
+
+<script>
+function download() {
+  let url = document.getElementById("link").value;
+
+  fetch("https://cclocalhosting-atik.onrender.com/download", {  // ✅ your backend
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ url })
+  })
+  .then(res => res.json())
+  .then(data => {
+    window.open(data.download_url);
+  });
 }
-</style>
+</script>
+
+</body>
+</html>
