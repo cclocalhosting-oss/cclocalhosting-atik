@@ -1,0 +1,23 @@
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f4f4f4;
+  padding: 50px;
+}
+
+input {
+  width: 300px;
+  padding: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: darkgreen;
+}
