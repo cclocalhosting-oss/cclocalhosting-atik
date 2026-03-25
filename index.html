@@ -93,198 +93,434 @@
             100% { top: 100%; }
         }
     </style>
-    <style>
-    /* RED ALERT - Enhanced Cyberpunk Hacker Theme */
+<style>
+    :root {
+        --red: #ff0000;
+        --dark: #0a0000;
+    }
+
     body {
-        background: #050000;
-        color: #ff0000;
+        background: #020000;
+        color: #ff3333;
         font-family: 'Courier New', monospace;
         margin: 0;
-        overflow: hidden;
         height: 100vh;
+        overflow: hidden;
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        position: relative;
     }
 
-    /* Matrix Rain Background */
-    .matrix-bg {
+    /* Left & Right Data Stream */
+    .data-stream {
         position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0;
+        width: 80px;
+        height: 100%;
+        background: linear-gradient(transparent, rgba(255,0,0,0.15), transparent);
+        animation: dataflow 8s linear infinite;
+        opacity: 0.4;
         pointer-events: none;
-        opacity: 0.12;
-        z-index: -1;
+    }
+    .data-stream.left  { left: 0; animation-delay: 0s; }
+    .data-stream.right { right: 0; animation-delay: 3s; transform: scaleX(-1); }
+
+    @keyframes dataflow {
+        0%   { transform: translateY(-100%); }
+        100% { transform: translateY(300%); }
     }
 
     .danger-box {
-        border: 3px solid #ff0000;
-        padding: 35px 30px;
-        width: 92%;
-        max-width: 520px;
-        background: rgba(12, 0, 0, 0.96);
+        border: 4px solid var(--red);
+        padding: 40px 35px;
+        width: 94%;
+        max-width: 540px;
+        background: rgba(8, 0, 0, 0.98);
         box-shadow: 
-            0 0 50px #ff0000,
-            inset 0 0 30px rgba(255, 0, 0, 0.3);
+            0 0 60px var(--red),
+            0 0 20px rgba(255, 50, 50, 0.6),
+            inset 0 0 40px rgba(255, 0, 0, 0.25);
         text-align: center;
         position: relative;
-        z-index: 2;
-        border-radius: 4px;
+        z-index: 10;
+        border-radius: 6px;
+        overflow: hidden;
     }
 
-    /* Glitch Title */
+    /* Super Glitch Title */
     h1 {
-        font-size: 28px;
+        font-size: 32px;
         text-transform: uppercase;
-        letter-spacing: 6px;
+        letter-spacing: 8px;
+        margin: 0 0 10px 0;
         text-shadow: 
             0 0 10px #ff0000,
-            2px 2px 0 #00ff00,
-            -2px -2px 0 #ffff00;
-        animation: glitch 0.8s infinite alternate;
-        margin: 0 0 8px 0;
+            3px 3px 0 #00ffcc,
+            -3px -3px 0 #ffff00;
+        animation: heavy-glitch 0.6s infinite alternate;
     }
 
-    @keyframes glitch {
-        0%   { transform: translate(0); }
-        20%  { transform: translate(-3px, 3px); }
-        40%  { transform: translate(-3px, -3px); }
-        60%  { transform: translate(3px, 3px); }
-        80%  { transform: translate(3px, -3px); }
-        100% { transform: translate(0); }
+    @keyframes heavy-glitch {
+        0%   { transform: translate(0,0) skew(0deg); }
+        10%  { transform: translate(-4px, 3px) skew(8deg); }
+        20%  { transform: translate(4px, -3px) skew(-8deg); }
+        30%  { transform: translate(-2px, 2px); }
+        100% { transform: translate(0,0) skew(0deg); }
     }
 
-    p {
-        font-size: 12px;
-        margin: 8px 0 20px;
-        opacity: 0.9;
-        text-shadow: 0 0 8px #ff0000;
+    .terminal-header {
+        font-size: 13px;
+        color: #ff6666;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0.3; }
     }
 
     input {
         width: 100%;
-        padding: 16px;
-        background: #0a0000;
-        border: 2px solid #ff3333;
-        color: #ff6666;
-        font-size: 16px;
-        margin: 20px 0;
+        padding: 18px;
+        background: #0f0000;
+        border: 3px solid #ff2222;
+        color: #ff9999;
+        font-size: 17px;
+        margin: 25px 0 20px;
         outline: none;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-        transition: all 0.3s;
+        box-shadow: 0 0 25px rgba(255,0,0,0.6);
+        transition: 0.4s;
     }
 
     input:focus {
-        border-color: #ff0000;
-        box-shadow: 0 0 25px #ff0000;
-        color: #ffaaaa;
+        border-color: #ff5555;
+        box-shadow: 0 0 40px #ff0000;
+        color: #ffffff;
     }
 
-    /* Neon Buttons */
+    /* Electric Buttons */
     .btn {
         width: 100%;
-        padding: 16px;
-        background: linear-gradient(#ff0000, #cc0000);
-        color: #000;
-        border: none;
+        padding: 18px;
         margin: 12px 0;
+        background: linear-gradient(180deg, #ff0000, #aa0000);
+        color: #000000;
+        border: 2px solid #ff5555;
+        font-size: 18px;
         font-weight: bold;
-        font-size: 17px;
-        cursor: pointer;
         text-transform: uppercase;
-        letter-spacing: 2px;
-        box-shadow: 0 0 20px #ff0000;
-        transition: all 0.4s ease;
+        letter-spacing: 3px;
+        cursor: pointer;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 0 30px #ff0000;
+        transition: all 0.3s;
     }
 
     .btn:hover {
-        background: linear-gradient(#ff3333, #ff0000);
-        box-shadow: 0 0 35px #ff0000;
-        transform: translateY(-3px) scale(1.03);
+        background: linear-gradient(180deg, #ff4444, #ff0000);
+        box-shadow: 0 0 50px #ff0000, 0 0 20px #ffff00;
+        transform: scale(1.05);
         color: #110000;
     }
 
-    .btn::before {
+    .btn::after {
         content: '';
         position: absolute;
         top: -50%;
-        left: -50%;
-        width: 40%;
-        height: 200%;
-        background: rgba(255,255,255,0.3);
-        transform: skewX(-25deg);
-        transition: 0.6s;
-        opacity: 0;
+        left: -100%;
+        width: 50%;
+        height: 300%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.6),
+            transparent
+        );
+        transition: 0.7s;
     }
 
-    .btn:hover::before {
-        opacity: 1;
-        left: 120%;
+    .btn:hover::after {
+        left: 200%;
     }
 
     /* Console */
     .console {
-        margin-top: 25px;
-        text-align: left;
-        font-size: 14px;
-        height: 180px;
+        margin-top: 30px;
+        background: #000000;
+        border: 2px solid #660000;
+        height: 190px;
         overflow-y: auto;
-        border-top: 3px double #ff0000;
         padding: 15px;
-        background: rgba(0,0,0,0.75);
+        text-align: left;
+        font-size: 14.5px;
         color: #ff7777;
-        box-shadow: inset 0 0 15px rgba(255,0,0,0.5);
+        box-shadow: inset 0 0 25px rgba(255,0,0,0.7);
         display: none;
     }
 
-    /* Progress Bar */
+    /* Progress Bar - Cyber Style */
     #progress {
-        height: 8px;
-        background: linear-gradient(to right, #ff0000, #ff6666);
+        height: 10px;
+        background: linear-gradient(to right, #ff0000, #ff8800, #ffff00);
         width: 0%;
-        margin: 15px 0;
-        box-shadow: 0 0 15px #ff0000;
-        transition: width 0.5s linear;
+        margin: 18px 0;
+        box-shadow: 0 0 20px #ff0000;
+        transition: width 0.6s ease;
     }
 
-    /* CRT Scanlines + Noise */
+    /* Scan Line + CRT */
     .scan-line {
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(transparent, rgba(255,0,0,0.6), transparent);
         position: absolute;
         top: 0;
         left: 0;
-        animation: scan 1.5s linear infinite;
-        pointer-events: none;
-        box-shadow: 0 0 12px #ff0000;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(transparent, #ff0000, transparent);
+        box-shadow: 0 0 15px #ff0000;
+        animation: aggressive-scan 1.2s linear infinite;
+        z-index: 5;
     }
 
-    @keyframes scan {
-        0%   { top: -20%; }
-        100% { top: 120%; }
+    @keyframes aggressive-scan {
+        0%   { top: -30%; }
+        100% { top: 130%; }
     }
 
-    /* Subtle CRT flicker */
-    .danger-box::after {
+    .danger-box::before {
         content: '';
         position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
+        inset: 0;
         background: repeating-linear-gradient(
-            transparent 0px,
-            transparent 2px,
-            rgba(255,0,0,0.03) 2px,
-            rgba(255,0,0,0.03) 4px
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255, 0, 0, 0.06) 3px,
+            rgba(255, 0, 0, 0.06) 6px
         );
         pointer-events: none;
-        animation: flicker 0.15s infinite alternate;
-        z-index: 1;
+        animation: crt-flicker 0.12s infinite alternate;
     }
 
-    @keyframes flicker {
-        0%   { opacity: 0.95; }
+    @keyframes crt-flicker {
+        0%   { opacity: 0.92; }
+        100% { opacity: 1; }
+    }
+</style><style>
+    :root {
+        --red: #ff0000;
+        --dark: #0a0000;
+    }
+
+    body {
+        background: #020000;
+        color: #ff3333;
+        font-family: 'Courier New', monospace;
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Left & Right Data Stream */
+    .data-stream {
+        position: absolute;
+        top: 0;
+        width: 80px;
+        height: 100%;
+        background: linear-gradient(transparent, rgba(255,0,0,0.15), transparent);
+        animation: dataflow 8s linear infinite;
+        opacity: 0.4;
+        pointer-events: none;
+    }
+    .data-stream.left  { left: 0; animation-delay: 0s; }
+    .data-stream.right { right: 0; animation-delay: 3s; transform: scaleX(-1); }
+
+    @keyframes dataflow {
+        0%   { transform: translateY(-100%); }
+        100% { transform: translateY(300%); }
+    }
+
+    .danger-box {
+        border: 4px solid var(--red);
+        padding: 40px 35px;
+        width: 94%;
+        max-width: 540px;
+        background: rgba(8, 0, 0, 0.98);
+        box-shadow: 
+            0 0 60px var(--red),
+            0 0 20px rgba(255, 50, 50, 0.6),
+            inset 0 0 40px rgba(255, 0, 0, 0.25);
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    /* Super Glitch Title */
+    h1 {
+        font-size: 32px;
+        text-transform: uppercase;
+        letter-spacing: 8px;
+        margin: 0 0 10px 0;
+        text-shadow: 
+            0 0 10px #ff0000,
+            3px 3px 0 #00ffcc,
+            -3px -3px 0 #ffff00;
+        animation: heavy-glitch 0.6s infinite alternate;
+    }
+
+    @keyframes heavy-glitch {
+        0%   { transform: translate(0,0) skew(0deg); }
+        10%  { transform: translate(-4px, 3px) skew(8deg); }
+        20%  { transform: translate(4px, -3px) skew(-8deg); }
+        30%  { transform: translate(-2px, 2px); }
+        100% { transform: translate(0,0) skew(0deg); }
+    }
+
+    .terminal-header {
+        font-size: 13px;
+        color: #ff6666;
+        margin-bottom: 20px;
+        letter-spacing: 3px;
+        animation: blink 1.2s step-end infinite;
+    }
+
+    @keyframes blink {
+        50% { opacity: 0.3; }
+    }
+
+    input {
+        width: 100%;
+        padding: 18px;
+        background: #0f0000;
+        border: 3px solid #ff2222;
+        color: #ff9999;
+        font-size: 17px;
+        margin: 25px 0 20px;
+        outline: none;
+        box-shadow: 0 0 25px rgba(255,0,0,0.6);
+        transition: 0.4s;
+    }
+
+    input:focus {
+        border-color: #ff5555;
+        box-shadow: 0 0 40px #ff0000;
+        color: #ffffff;
+    }
+
+    /* Electric Buttons */
+    .btn {
+        width: 100%;
+        padding: 18px;
+        margin: 12px 0;
+        background: linear-gradient(180deg, #ff0000, #aa0000);
+        color: #000000;
+        border: 2px solid #ff5555;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 30px #ff0000;
+        transition: all 0.3s;
+    }
+
+    .btn:hover {
+        background: linear-gradient(180deg, #ff4444, #ff0000);
+        box-shadow: 0 0 50px #ff0000, 0 0 20px #ffff00;
+        transform: scale(1.05);
+        color: #110000;
+    }
+
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -100%;
+        width: 50%;
+        height: 300%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.6),
+            transparent
+        );
+        transition: 0.7s;
+    }
+
+    .btn:hover::after {
+        left: 200%;
+    }
+
+    /* Console */
+    .console {
+        margin-top: 30px;
+        background: #000000;
+        border: 2px solid #660000;
+        height: 190px;
+        overflow-y: auto;
+        padding: 15px;
+        text-align: left;
+        font-size: 14.5px;
+        color: #ff7777;
+        box-shadow: inset 0 0 25px rgba(255,0,0,0.7);
+        display: none;
+    }
+
+    /* Progress Bar - Cyber Style */
+    #progress {
+        height: 10px;
+        background: linear-gradient(to right, #ff0000, #ff8800, #ffff00);
+        width: 0%;
+        margin: 18px 0;
+        box-shadow: 0 0 20px #ff0000;
+        transition: width 0.6s ease;
+    }
+
+    /* Scan Line + CRT */
+    .scan-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(transparent, #ff0000, transparent);
+        box-shadow: 0 0 15px #ff0000;
+        animation: aggressive-scan 1.2s linear infinite;
+        z-index: 5;
+    }
+
+    @keyframes aggressive-scan {
+        0%   { top: -30%; }
+        100% { top: 130%; }
+    }
+
+    .danger-box::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255, 0, 0, 0.06) 3px,
+            rgba(255, 0, 0, 0.06) 6px
+        );
+        pointer-events: none;
+        animation: crt-flicker 0.12s infinite alternate;
+    }
+
+    @keyframes crt-flicker {
+        0%   { opacity: 0.92; }
         100% { opacity: 1; }
     }
 </style>
