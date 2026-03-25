@@ -1,35 +1,84 @@
-import requests
-from tqdm import tqdm  # প্রোগ্রেস বার দেখানোর জন্য
-
-def download_anime_video(video_url, save_name="anime_episode.mp4"):
-    print(f"Downloading... {video_url}")
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Downloader Web - Cc ভাইয়ের টুল</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
     }
-    
-    response = requests.get(video_url, headers=headers, stream=True)
-    response.raise_for_status()  # এরর চেক
-    
-    total_size = int(response.headers.get('content-length', 0))
-    
-    with open(save_name, "wb") as file, tqdm(
-        desc=save_name,
-        total=total_size,
-        unit='iB',
-        unit_scale=True,
-        unit_divisor=1024,
-    ) as progress_bar:
-        for data in response.iter_content(chunk_size=1024):
-            size = file.write(data)
-            progress_bar.update(size)
-    
-    print(f"\n✅ Download complete! Saved as: {save_name}")
+    h1 { color: #ff4081; }
+    input, button {
+      padding: 12px;
+      margin: 10px;
+      font-size: 18px;
+      border-radius: 8px;
+    }
+    input { width: 60%; background: #222; color: #fff; border: 2px solid #ff4081; }
+    button {
+      background: #ff4081;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover { background: #f50057; }
+    video { max-width: 90%; margin: 20px auto; display: block; border: 3px solid #ff4081; border-radius: 10px; }
+    #status { margin: 15px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>🎥 Video Downloader Web</h1>
+  <p>Direct MP4 বা m3u8 লিংক দাও (Anime সাইটের ভিডিও লিংক)</p>
+  
+  <input type="text" id="url" placeholder="https://example.com/video.mp4 বা m3u8 লিংক" />
+  <br>
+  <button onclick="loadVideo()">Load & Play</button>
+  <button onclick="downloadVideo()">⬇️ Download Video</button>
 
-# ================== ব্যবহারের উদাহরণ ==================
-if __name__ == "__main__":
-    # এখানে তোমার anime ভিডিওর direct mp4 লিঙ্ক দাও
-    url = input("Paste your anime video URL: ").strip()
-    filename = input("Save as (e.g. one_piece_1050.mp4): ").strip() or "anime_video.mp4"
-    
-    download_anime_video(url, filename)
+  <div id="status"></div>
+  <video id="player" controls></video>
+
+  <script>
+    function loadVideo() {
+      const url = document.getElementById('url').value.trim();
+      const video = document.getElementById('player');
+      const status = document.getElementById('status');
+
+      if (!url) {
+        status.innerHTML = "❌ লিংক দাও!";
+        return;
+      }
+
+      video.src = url;
+      video.load();
+      status.innerHTML = "✅ ভিডিও লোড হচ্ছে...";
+    }
+
+    function downloadVideo() {
+      const url = document.getElementById('url').value.trim();
+      const status = document.getElementById('status');
+
+      if (!url) {
+        status.innerHTML = "❌ প্রথমে লিংক দাও!";
+        return;
+      }
+
+      status.innerHTML = "⬇️ ডাউনলোড শুরু হচ্ছে...";
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "video_" + Date.now() + ".mp4";   // নাম চেঞ্জ করতে পারো
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      status.innerHTML = "✅ ডাউনলোড শুরু হয়েছে! (m3u8 হলে browser-এর downloader ব্যবহার করো)";
+    }
+  </script>
+</body>
+</html>
