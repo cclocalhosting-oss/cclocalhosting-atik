@@ -195,7 +195,7 @@
       document.documentElement.style.setProperty('--accent', newColor);
     }
 
-    // Auto change color every 10 seconds
+    // Auto change color every 1 seconds
     setInterval(changeColor, 10000);
 
     // Matrix Rain
@@ -210,7 +210,7 @@
     let drops = Array(Math.floor(columns)).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(10, 0, 0, 0.09)';
+      ctx.fillStyle = 'rgba(10, 0,)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = document.documentElement.style.getPropertyValue('--accent');
       ctx.font = `${fontSize}px VT323`;
