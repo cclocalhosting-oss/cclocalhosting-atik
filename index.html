@@ -1,22 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>All Video Downloader</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+import requests
+from tqdm import tqdm  # প্রোগ্রেস বার দেখানোর জন্য
 
-<div class="container">
-  <h1>All Video Downloader</h1>
+def download_anime_video(video_url, save_name="anime_episode.mp4"):
+    print(f"Downloading... {video_url}")
+    
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+    
+    response = requests.get(video_url, headers=headers, stream=True)
+    response.raise_for_status()  # এরর চেক
+    
+    total_size = int(response.headers.get('content-length', 0))
+    
+    with open(save_name, "wb") as file, tqdm(
+        desc=save_name,
+        total=total_size,
+        unit='iB',
+        unit_scale=True,
+        unit_divisor=1024,
+    ) as progress_bar:
+        for data in response.iter_content(chunk_size=1024):
+            size = file.write(data)
+            progress_bar.update(size)
+    
+    print(f"\n✅ Download complete! Saved as: {save_name}")
 
-  <input type="text" id="videoUrl" placeholder="Paste video link here">
-
-  <button onclick="downloadVideo()">Download</button>
-
-  <p id="message"></p>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+# ================== ব্যবহারের উদাহরণ ==================
+if __name__ == "__main__":
+    # এখানে তোমার anime ভিডিওর direct mp4 লিঙ্ক দাও
+    url = input("Paste your anime video URL: ").strip()
+    filename = input("Save as (e.g. one_piece_1050.mp4): ").strip() or "anime_video.mp4"
+    
+    download_anime_video(url, filename)
