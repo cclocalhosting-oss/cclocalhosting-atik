@@ -1,155 +1,246 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red Alert Downloader</title>
-    <style>
-        /* Red Hacker Theme CSS */
-        body {
-            background-color: #050000;
-            color: #ff0000; /* Lal Rong */
-            font-family: 'Courier New', monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIDHACK v2.5 // AUTO BREACH</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-        .danger-box {
-            border: 2px solid #ff0000;
-            padding: 25px;
-            width: 85%;
-            max-width: 400px;
-            background: rgba(20, 0, 0, 0.95);
-            box-shadow: 0 0 25px #ff0000; /* Lal Glow */
-            text-align: center;
-            position: relative;
-        }
+    :root {
+      --accent: #00ff41;
+    }
 
-        h1 { 
-            font-size: 22px; 
-            text-transform: uppercase; 
-            letter-spacing: 3px;
-            text-shadow: 2px 2px #550000;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: var(--accent);
+      font-family: 'VT323', monospace;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+      transition: color 0.6s ease;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            background: #110000;
-            border: 1px solid #ff0000;
-            color: #ff0000;
-            margin-top: 20px;
-            outline: none;
-            box-sizing: border-box;
-        }
+    /* Matrix Rain */
+    #matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      opacity: 0.28;
+    }
 
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #ff0000;
-            color: #000;
-            border: none;
-            margin-top: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
+    .scanlines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+      pointer-events: none;
+      z-index: 1;
+    }
 
-        .btn:hover {
-            background: #cc0000;
-            box-shadow: 0 0 10px #ff0000;
-        }
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 880px;
+      margin: 40px auto;
+      padding: 35px;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 60px var(--accent);
+      background: rgba(5, 5, 15, 0.93);
+      text-align: center;
+      transition: all 0.6s ease;
+    }
 
-        .console {
-            margin-top: 20px;
-            text-align: left;
-            font-size: 13px;
-            height: 120px;
-            overflow-y: hidden;
-            border-top: 1px solid #ff0000;
-            padding-top: 10px;
-            display: none;
-            color: #ff4d4d;
-        }
+    h1 {
+      font-size: 5rem;
+      letter-spacing: 12px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 20px var(--accent), 4px 4px 0 #000, -4px -4px 0 #000;
+      animation: glitch 1s infinite linear alternate;
+    }
 
-        /* Scan Animation */
-        .scan-line {
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 0, 0, 0.5);
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: scan 2s linear infinite;
-        }
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-5px, 5px); }
+      40% { transform: translate(-5px, -5px); }
+      60% { transform: translate(5px, 5px); }
+      80% { transform: translate(5px, -5px); }
+      100% { transform: translate(0); }
+    }
 
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-    </style>
+    .subtitle {
+      font-size: 2.1rem;
+      margin-bottom: 45px;
+      text-shadow: 0 0 25px var(--accent);
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 25px 30px;
+      font-size: 1.8rem;
+      background: #001105;
+      border: 3px solid var(--accent);
+      color: var(--accent);
+      outline: none;
+      box-shadow: 0 0 30px var(--accent);
+      transition: all 0.5s;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 18px 70px;
+      font-size: 2rem;
+      background: #000;
+      color: var(--accent);
+      border: 4px solid var(--accent);
+      cursor: pointer;
+      box-shadow: 0 0 40px var(--accent);
+      transition: all 0.4s;
+    }
+    button:hover {
+      background: var(--accent);
+      color: #000;
+      transform: scale(1.1);
+      box-shadow: 0 0 60px var(--accent);
+    }
+
+    #result {
+      margin-top: 60px;
+      opacity: 0;
+      transition: all 0.8s;
+      border: 2px dashed var(--accent);
+      padding: 30px;
+      font-size: 1.7rem;
+    }
+    #result.show { opacity: 1; }
+
+    /* Auto Color Indicator */
+    .status-bar {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      padding: 8px 25px;
+      border: 2px solid var(--accent);
+      font-size: 1.3rem;
+      z-index: 20;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="danger-box">
-        <div class="scan-line"></div>
-        <h1>SYSTEM CRITICAL</h1>
-        <p style="font-size: 11px;">ALERT: UNAUTHORIZED DOWNLOADS ACTIVE</p>
+  <canvas id="matrix"></canvas>
+  <div class="scanlines"></div>
 
-        <input type="text" id="url" placeholder="[INPUT_URL_HERE]">
-        
-        <button class="btn" onclick="executeRedScript()">Execute Breach</button>
+  <div class="container">
+    <h1>VIDHACK v2.5</h1>
+    <p class="subtitle">AUTO BREACH MODE ACTIVATED</p>
 
-        <div class="console" id="console">
-            <div id="logs"></div>
-        </div>
+    <div class="input-box">
+      <input type="text" id="videoUrl" placeholder="ENTER TARGET URL...">
+      <button onclick="fetchVideo()">INITIATE BREACH</button>
     </div>
 
-    <script>
-        function executeRedScript() {
-            const url = document.getElementById('url').value;
-            const consoleBox = document.getElementById('console');
-            const logs = document.getElementById('logs');
+    <div id="result"></div>
+  </div>
 
-            if(url === "") {
-                alert("ERROR: LINK NOT FOUND!");
-                return;
-            }
+  <div class="status-bar">AUTO COLOR CYCLE ACTIVE • BREACHING...</div>
 
-            consoleBox.style.display = "block";
-            const messages = [
-                "> Overriding server protocols...",
-                "> Locating encrypted video source...",
-                "> Bypassing firewall: [SUCCESS]",
-                "> Tunneling through secure proxy...",
-                "> Initiating file extraction...",
-                "> BREACH SUCCESSFUL. SAVING FILE..."
-            ];
+  <script>
+    const colors = [
+      '#00ff41',  // Green
+      '#ff00ff',  // Magenta
+      '#00ccff',  // Cyan
+      '#aa00ff',  // Purple
+      '#ccff00',  // Lime
+      '#ff0033',  // Red
+      '#ff8800'   // Orange
+    ];
 
-            let i = 0;
-            logs.innerHTML = ""; 
+    let colorIndex = 0;
 
-            const interval = setInterval(() => {
-                if (i < messages.length) {
-                    const div = document.createElement("div");
-                    div.innerText = messages[i];
-                    logs.appendChild(div);
-                    i++;
-                } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        // Real redirect to download service
-                        window.location.href = "https://9xbuddy.com/process?url=" + encodeURIComponent(url);
-                    }, 1000);
-                }
-            }, 700);
+    function autoChangeColor() {
+      colorIndex = (colorIndex + 1) % colors.length;
+      const newColor = colors[colorIndex];
+      
+      document.documentElement.style.setProperty('--accent', newColor);
+      
+      // Also update matrix rain color
+      matrixColor = newColor;
+    }
+
+    // Change color every 1.2 seconds (fast & cool)
+    setInterval(autoChangeColor, 1200);
+
+    // Matrix Rain
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let matrixColor = '#00ff41';
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$@#";
+    const fontSize = 14;
+    let columns = canvas.width / fontSize;
+    let drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = matrixColor;
+      ctx.font = `${fontSize}px VT323`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
         }
-    </script>
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 35);
 
+    window.addEventListener('resize', () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+      columns = canvas.width / fontSize;
+      drops = Array(Math.floor(columns)).fill(1);
+    });
+
+    // Download Function
+    function fetchVideo() {
+      const url = document.getElementById('videoUrl').value.trim();
+      const result = document.getElementById('result');
+
+      if (!url) {
+        alert("ERROR: NO TARGET URL DETECTED");
+        return;
+      }
+
+      result.innerHTML = `
+        <p style="color:var(--accent); margin-bottom:20px;">>> CONNECTION ESTABLISHED • BREACHING...</p>
+        <div style="max-width:540px; margin:25px auto; border:3px solid var(--accent); box-shadow:0 0 40px var(--accent);">
+          <video width="100%" controls>
+            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+          </video>
+        </div>
+        <p>>> TARGET ACQUIRED • READY FOR EXTRACTION</p>
+        <button onclick="alert('DOWNLOADING 1080p...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">1080p MP4</button>
+        <button onclick="alert('DOWNLOADING 720p...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">720p MP4</button>
+        <button onclick="alert('EXTRACTING AUDIO...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">MP3 AUDIO ONLY</button>
+      `;
+      result.classList.add('show');
+    }
+
+    // Enter key support
+    document.getElementById('videoUrl').addEventListener('keypress', e => {
+      if (e.key === 'Enter') fetchVideo();
+    });
+  </script>
 </body>
 </html>
