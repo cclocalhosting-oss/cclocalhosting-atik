@@ -1,4 +1,158 @@
 <!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Alert Downloader</title>
+    <style>
+        /* Red Hacker Theme CSS */
+        body {
+            background-color: #050000;
+            color: #ff0000; /* Lal Rong */
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .danger-box {
+            border: 2px solid #ff0000;
+            padding: 25px;
+            width: 85%;
+            max-width: 400px;
+            background: rgba(20, 0, 0, 0.95);
+            box-shadow: 0 0 25px #ff0000; /* Lal Glow */
+            text-align: center;
+            position: relative;
+        }
+
+        h1 { 
+            font-size: 22px; 
+            text-transform: uppercase; 
+            letter-spacing: 3px;
+            text-shadow: 2px 2px #550000;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #110000;
+            border: 1px solid #ff0000;
+            color: #ff0000;
+            margin-top: 20px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff0000;
+            color: #000;
+            border: none;
+            margin-top: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #cc0000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        .console {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 13px;
+            height: 120px;
+            overflow-y: hidden;
+            border-top: 1px solid #ff0000;
+            padding-top: 10px;
+            display: none;
+            color: #ff4d4d;
+        }
+
+        /* Scan Animation */
+        .scan-line {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 0, 0, 0.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="danger-box">
+        <div class="scan-line"></div>
+        <h1>SYSTEM CRITICAL</h1>
+        <p style="font-size: 11px;">ALERT: UNAUTHORIZED DOWNLOADS ACTIVE</p>
+
+        <input type="text" id="url" placeholder="[INPUT_URL_HERE]">
+        
+        <button class="btn" onclick="executeRedScript()">Execute Breach</button>
+
+        <div class="console" id="console">
+            <div id="logs"></div>
+        </div>
+    </div>
+
+    <script>
+        function executeRedScript() {
+            const url = document.getElementById('url').value;
+            const consoleBox = document.getElementById('console');
+            const logs = document.getElementById('logs');
+
+            if(url === "") {
+                alert("ERROR: LINK NOT FOUND!");
+                return;
+            }
+
+            consoleBox.style.display = "block";
+            const messages = [
+                "> Overriding server protocols...",
+                "> Locating encrypted video source...",
+                "> Bypassing firewall: [SUCCESS]",
+                "> Tunneling through secure proxy...",
+                "> Initiating file extraction...",
+                "> BREACH SUCCESSFUL. SAVING FILE..."
+            ];
+
+            let i = 0;
+            logs.innerHTML = ""; 
+
+            const interval = setInterval(() => {
+                if (i < messages.length) {
+                    const div = document.createElement("div");
+                    div.innerText = messages[i];
+                    logs.appendChild(div);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Real redirect to download service
+                        window.location.href = "https://9xbuddy.com/process?url=" + encodeURIComponent(url);
+                    }, 1000);
+                }
+            }, 700);
+        }
+    </script>
+
+</body>
+</html><!DOCTYPE html>
 <html>
 <head>
     <title>Animated Video Downloader</title>
