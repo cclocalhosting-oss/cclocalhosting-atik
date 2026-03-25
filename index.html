@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Animated ❤️ Downloader</title>
+    <title>Animated Video Downloader</title>
     <style>
         body {
             margin: 0;
@@ -81,15 +81,39 @@
         }
     </style>
 </head>
+<body>
+
+<div class="container">
+    <h2>🎬 Video Downloader</h2>
+    <input type="text" id="videoUrl" placeholder="Paste video link here">
+    <button onclick="downloadVideo()">Download</button>
+</div>
+
+<script>
+function downloadVideo() {
+    let url = document.getElementById("videoUrl").value;
+
+    if(url === "") {
+        alert("Please enter video link!");
+        return;
+    }
+
+    // open video link
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
 </head>
 <body>
 
     <div class="danger-box">
         <div class="scan-line"></div>
-        <h1> ATIK SHARIER HOSTING ❤️ </h1>
-        <p style="font-size: 11px;Local ❤️</p>
+        <h1>SYSTEM CRITICAL</h1>
+        <p style="font-size: 11px;">ALERT: UNAUTHORIZED DOWNLOADS ACTIVE</p>
 
-        <input type="text" id="url" placeholder="[Atik ❤️ Sharier]">
+        <input type="text" id="url" placeholder="[INPUT_URL_HERE]">
         
         <button class="btn" onclick="executeRedScript()">Execute Breach</button>
 
@@ -98,7 +122,6 @@
         </div>
     </div>
 
-    
     <script>
         function executeRedScript() {
             const url = document.getElementById('url').value;
@@ -112,13 +135,13 @@
 
             consoleBox.style.display = "block";
             const messages = [
-"> HOSTING SUCCESSFUL.❤️❤️❤️❤️...",
-"> Bypassing firewall: ❤️❤️❤️",
-"> Bypassing firewall:   ❤️  ",
-"> Tunneling through secure proxy...",
-"> Initiating file extraction...",
-"> Overriding server protocols..."
-        ];
+                "> Overriding server protocols...",
+                "> Locating encrypted video source...",
+                "> Bypassing firewall: [SUCCESS]",
+                "> Tunneling through secure proxy...",
+                "> Initiating file extraction...",
+                "> BREACH SUCCESSFUL. SAVING FILE..."
+            ];
 
             let i = 0;
             logs.innerHTML = ""; 
@@ -141,5 +164,4 @@
     </script>
 
 </body>
-</html>
 </html>
