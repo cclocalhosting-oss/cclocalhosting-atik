@@ -79,28 +79,25 @@
             transform: scale(1.05);
             background: #007bff;
         }
+}
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>🎬 Video Downloader</h2>
-    <input type="text" id="videoUrl" placeholder="Paste video link here">
-    <button onclick="downloadVideo()">Download</button>
-</div>
+    <div class="danger-box">
+        <div class="scan-line"></div>
+        <h1>SYSTEM CRITICAL</h1>
+        <p style="font-size: 11px;">ALERT: UNAUTHORIZED DOWNLOADS ACTIVE</p>
 
-<script>
-function downloadVideo() {
-    let url = document.getElementById("videoUrl").value;
+        <input type="text" id="url" placeholder="[INPUT_URL_HERE]">
+        
+        <button class="btn" onclick="executeRedScript()">Execute Breach</button>
 
-    if(url === "") {
-        alert("Please enter video link!");
-        return;
-    }
+        <div class="console" id="console">
+            <div id="logs"></div>
+        </div>
+    </div>
 
-    // open video link
-    window.open(url, "_blank");
-}
     <script>
         function executeRedScript() {
             const url = document.getElementById('url').value;
