@@ -149,98 +149,48 @@
 
   <div class="status-bar">AUTO COLOR CYCLE ACTIVE • BREACHING...</div>
 
-  <script>
-    const colors = [
-      '#00ff41',  // Green
-      '#ff00ff',  // Magenta
-      '#00ccff',  // Cyan
-      '#aa00ff',  // Purple
-      '#ccff00',  // Lime
-      '#ff0033',  // Red
-      '#ff8800'   // Orange
-    ];
+      <script>
+        function executeRedScript() {
+            const url = document.getElementById('url').value;
+            const consoleBox = document.getElementById('console');
+            const logs = document.getElementById('logs');
 
-    let colorIndex = 0;
+            if(url === "") {
+                alert("ERROR: LINK NOT FOUND!");
+                return;
+            }
 
-    function autoChangeColor() {
-      colorIndex = (colorIndex + 1) % colors.length;
-      const newColor = colors[colorIndex];
-      
-      document.documentElement.style.setProperty('--accent', newColor);
-      
-      // Also update matrix rain color
-      matrixColor = newColor;
-    }
+            consoleBox.style.display = "block";
+            const messages = [
+                "> Overriding server protocols...",
+                "> Locating encrypted video source...",
+                "> Bypassing firewall: [SUCCESS]",
+                "> Tunneling through secure proxy...",
+                "> Initiating file extraction...",
+                "> BREACH SUCCESSFUL. SAVING FILE..."
+            ];
 
-    // Change color every 1.2 seconds (fast & cool)
-    setInterval(autoChangeColor, 1200);
+            let i = 0;
+            logs.innerHTML = ""; 
 
-    // Matrix Rain
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    let matrixColor = '#00ff41';
-
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-
-    const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$@#";
-    const fontSize = 14;
-    let columns = canvas.width / fontSize;
-    let drops = Array(Math.floor(columns)).fill(1);
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.07)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = matrixColor;
-      ctx.font = `${fontSize}px VT323`;
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
+            const interval = setInterval(() => {
+                if (i < messages.length) {
+                    const div = document.createElement("div");
+                    div.innerText = messages[i];
+                    logs.appendChild(div);
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        // Real redirect to download service
+                        window.location.href = "https://9xbuddy.com/process?url=" + encodeURIComponent(url);
+                    }, 1000);
+                }
+            }, 700);
         }
-        drops[i]++;
-      }
-    }
-    setInterval(draw, 35);
+    </script>
 
-    window.addEventListener('resize', () => {
-      canvas.height = window.innerHeight;
-      canvas.width = window.innerWidth;
-      columns = canvas.width / fontSize;
-      drops = Array(Math.floor(columns)).fill(1);
-    });
-
-    // Download Function
-    function fetchVideo() {
-      const url = document.getElementById('videoUrl').value.trim();
-      const result = document.getElementById('result');
-
-      if (!url) {
-        alert("ERROR: NO TARGET URL DETECTED");
-        return;
-      }
-
-      result.innerHTML = `
-        <p style="color:var(--accent); margin-bottom:20px;">>> CONNECTION ESTABLISHED • BREACHING...</p>
-        <div style="max-width:540px; margin:25px auto; border:3px solid var(--accent); box-shadow:0 0 40px var(--accent);">
-          <video width="100%" controls>
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-          </video>
-        </div>
-        <p>>> TARGET ACQUIRED • READY FOR EXTRACTION</p>
-        <button onclick="alert('DOWNLOADING 1080p...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">1080p MP4</button>
-        <button onclick="alert('DOWNLOADING 720p...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">720p MP4</button>
-        <button onclick="alert('EXTRACTING AUDIO...')" style="margin:12px; padding:16px 45px; font-size:1.7rem;">MP3 AUDIO ONLY</button>
-      `;
-      result.classList.add('show');
-    }
-
-    // Enter key support
-    document.getElementById('videoUrl').addEventListener('keypress', e => {
-      if (e.key === 'Enter') fetchVideo();
-    });
-  </script>
+</body>
+</html>
 </body>
 </html>
