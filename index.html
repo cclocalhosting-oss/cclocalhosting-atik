@@ -1,9 +1,9 @@
  (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
 diff --git a/index.html b/index.html
-index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e4e2c212f 100644
+index 43ef375af565c089d3b7aa1c476aecc41decfebe..aa9aacbcc294b3da1626bc6912ddcfd842f10969 100644
 --- a/index.html
 +++ b/index.html
-@@ -1,590 +1,162 @@
+@@ -1,590 +1,189 @@
  <!DOCTYPE html>
  <html lang="en">
  <head>
@@ -50,7 +50,7 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -    h1 {
 -      text-align: center;
 -      color: #333;
--    }
+     }
 -    .input-group {
 -      margin-bottom: 15px;
 -    }
@@ -84,7 +84,7 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -      color: white;
 -      border-radius: 4px;
 -      text-decoration: none;
-     }
+-    }
 -  <title>VideoDrop Pro (Legal Downloader)</title>
 -    <style>
 -:root {
@@ -172,7 +172,7 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -button.secondary { background: #374151; }
 -button.danger { background: var(--danger); }
 -button:hover { filter: brightness(1.08); }
--
+ 
 -.muted { color: var(--muted); font-size: 13px; }
 -.badge {
 -  display: inline-block;
@@ -183,7 +183,7 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -  color: #7dd3fc;
 -  margin-left: 8px;
 -}
- 
+-
 -.ok { color: var(--ok); }
 -.danger-text { color: var(--danger); }
 -.warning-text { color: var(--warning); }
@@ -306,7 +306,12 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -        </div>
 -      </div>
 -    </div>
--
++    @keyframes colorShift {
++      0% { background-position: 0% 50%; }
++      50% { background-position: 100% 50%; }
++      100% { background-position: 0% 50%; }
++    }
+ 
 -    <div class="card hidden" id="historyCard">
 -      <h2>Download History</h2>
 -      <p class="muted">Saved per user in localStorage.</p>
@@ -322,12 +327,12 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -        <tbody id="historyRows"></tbody>
 -      </table>
 -    </div>
--
+ 
 -    <button onclick="downloadVideo()">Download Video</button>
 -    <div class="card hidden" id="adminCard">
 -      <h2>Admin Settings</h2>
 -      <p class="muted">Admin can manage allowed download domains. Default admin: <strong>admin / admin123</strong></p>
--
+ 
 -    <div class="result" id="result"></div>
 -      <div class="row">
 -        <input id="newDomain" placeholder="example.com" />
@@ -344,7 +349,19 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -      </table>
 -    </div>
 -  </div>
--
++    .side-anim {
++      position: fixed;
++      top: 0;
++      bottom: 0;
++      width: 10px;
++      background: linear-gradient(180deg, #22d3ee, #a78bfa, #22d3ee);
++      background-size: 100% 220%;
++      opacity: 0.8;
++      animation: sideFlow 7s ease-in-out infinite;
++      filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.75));
++      pointer-events: none;
++    }
+ 
 -  <script>
 -    function downloadVideo() {
 -    const STORAGE_KEYS = {
@@ -353,17 +370,19 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -      history: "vdp_history",
 -      domains: "vdp_allowed_domains"
 -    };
--
++    .side-anim.left { left: 0; }
++    .side-anim.right { right: 0; animation-delay: 1.4s; }
+ 
 -    function seedDefaults() {
 -      const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.users) || "[]");
 -      if (!users.some(u => u.username === "admin")) {
 -        users.push({ username: "admin", password: "admin123", role: "admin" });
 -        localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
 -      }
-+    @keyframes colorShift {
-+      0% { background-position: 0% 50%; }
-+      50% { background-position: 100% 50%; }
-+      100% { background-position: 0% 50%; }
++    @keyframes sideFlow {
++      0% { background-position: 0% 0%; transform: scaleY(1); }
++      50% { background-position: 0% 100%; transform: scaleY(0.88); }
++      100% { background-position: 0% 0%; transform: scaleY(1); }
 +    }
  
 -      if (!localStorage.getItem(STORAGE_KEYS.domains)) {
@@ -469,6 +488,9 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 +  </style>
 +</head>
 +<body>
++  <div class="side-anim left" aria-hidden="true"></div>
++  <div class="side-anim right" aria-hidden="true"></div>
++
 +  <main class="card">
 +    <h1>All Video Download Code (Demo)</h1>
 +    <p class="muted">
@@ -574,9 +596,11 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -      if (!url) {
 -        result.innerHTML = "<p style='color:red;'>Please enter a valid URL.</p>";
 -        result.innerHTML = "<span class='danger-text'>Please enter a URL.</span>";
--        return;
--      }
--
++      if (!isVideoFile(url)) {
++        result.innerHTML = '<span class="error">Only direct video file links are allowed.</span>';
+         return;
+       }
+ 
 -      const mediaExtension = /\.(mp4|webm|mov|mkv|avi)(\?|#|$)/i.test(url);
 -      const allowed = isUrlAllowed(url);
 -
@@ -584,11 +608,9 @@ index 43ef375af565c089d3b7aa1c476aecc41decfebe..7340705ec17f235763de6683f99bd57e
 -        addHistoryRecord(currentUser.username, url, "Blocked");
 -        renderHistory(currentUser.username);
 -        result.innerHTML = "<span class='danger-text'>Blocked: URL must be from approved domains and direct video file links.</span>";
-+      if (!isVideoFile(url)) {
-+        result.innerHTML = '<span class="error">Only direct video file links are allowed.</span>';
-         return;
-       }
- 
+-        return;
+-      }
+-
 -      // Very basic way: just open a link with 'download' attribute (works only if same origin or the server allows it)
 -      addHistoryRecord(currentUser.username, url, "Created");
 -      renderHistory(currentUser.username);
