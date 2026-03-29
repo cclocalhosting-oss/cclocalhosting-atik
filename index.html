@@ -2,110 +2,149 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Hacker Downloader</title>
+<title>7 Color Hacker UI</title>
 
 <style>
 body {
   margin: 0;
   background: black;
-  color: #00ff00;
   font-family: monospace;
-  overflow: hidden;
+  color: #00ff00;
 }
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* layout */
+#container {
+  display: flex;
 }
 
-#terminal {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+/* left side */
+#main {
+  width: 65%;
+  padding: 20px;
 }
 
+/* right panel */
+#panel {
+  width: 35%;
+  border-left: 2px solid;
+  padding: 20px;
+}
+
+/* 🌈 7 color animation */
+.rainbow {
+  animation: rainbow 7s infinite;
+}
+
+@keyframes rainbow {
+  0% { color: red; text-shadow: 0 0 10px red; }
+  14% { color: orange; text-shadow: 0 0 10px orange; }
+  28% { color: yellow; text-shadow: 0 0 10px yellow; }
+  42% { color: lime; text-shadow: 0 0 10px lime; }
+  57% { color: cyan; text-shadow: 0 0 10px cyan; }
+  71% { color: blue; text-shadow: 0 0 10px blue; }
+  85% { color: violet; text-shadow: 0 0 10px violet; }
+  100% { color: red; text-shadow: 0 0 10px red; }
+}
+
+/* titles */
 h1 {
-  color: red;
+  font-size: 28px;
 }
 
+h2 {
+  font-size: 20px;
+}
+
+/* downloader box */
+#downloader {
+  margin-top: 20px;
+  border: 1px solid;
+  padding: 20px;
+  width: 350px;
+}
+
+/* input */
 input {
-  background: black;
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  width: 100%;
   padding: 10px;
-  width: 300px;
+  background: black;
+  border: 1px solid;
 }
 
+/* button */
 button {
-  background: black;
-  border: 1px solid #00ff00;
-  color: #00ff00;
+  width: 100%;
   padding: 10px;
+  margin-top: 10px;
+  background: black;
+  border: 1px solid;
   cursor: pointer;
 }
 
-button:hover {
-  background: #00ff00;
-  color: black;
+/* logs */
+#logs {
+  margin-top: 20px;
+  height: 200px;
+  overflow-y: auto;
+  border-top: 1px solid;
+  padding-top: 10px;
 }
 
-#logs {
-  margin-top: 15px;
+/* stat */
+.stat {
+  border: 1px solid;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/* blink */
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
 }
 </style>
 
 </head>
 <body>
 
-<canvas id="matrix"></canvas>
+<div id="container">
 
-<div id="terminal">
-  <h1>⚠ SYSTEM ACCESS</h1>
+  <!-- LEFT -->
+  <div id="main">
+    <h1 class="rainbow">⚠ Atik </h1>
 
-  <input type="text" id="url" placeholder="Enter video link">
-  <button onclick="start()">RUN</button>
+    <div id="downloader" class="rainbow">
+      <h2 class="rainbow">🎬 All Video Downloader</h2>
 
-  <div id="logs"></div>
+      <input class="rainbow" type="text" id="url" placeholder="Paste video link">
+
+      <button class="rainbow" onclick="start()">DOWNLOAD</button>
+    </div>
+
+    <div id="logs" class="rainbow"></div>
+  </div>
+
+  <!-- RIGHT -->
+  <div id="panel">
+    <h2 class="rainbow">💻 HACKER PANEL</h2>
+
+    <div class="stat rainbow">Status: <span class="blink">ONLINE</span></div>
+    <div class="stat rainbow">Server: SECURE NODE</div>
+    <div class="stat rainbow">Access Level: ROOT</div>
+
+    <div class="stat rainbow">
+      IP: <span id="ipText">Checking...</span>
+    </div>
+  </div>
+
 </div>
 
 <script>
-// matrix animation
-let canvas = document.getElementById("matrix");
-let ctx = canvas.getContext("2d");
 
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-let letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-letters = letters.split("");
-
-let fontSize = 14;
-let columns = canvas.width / fontSize;
-
-let drops = [];
-for(let x=0; x<columns; x++) drops[x]=1;
-
-function draw(){
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-
-  ctx.fillStyle="#0f0";
-  ctx.font = fontSize+"px monospace";
-
-  for(let i=0;i<drops.length;i++){
-    let text = letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-
-    if(drops[i]*fontSize > canvas.height && Math.random()>0.975)
-      drops[i]=0;
-
-    drops[i]++;
-  }
-}
-setInterval(draw, 33);
-
-// your logic added
+// downloader
 function start() {
   let url = document.getElementById("url").value;
   let logs = document.getElementById("logs");
@@ -116,11 +155,11 @@ function start() {
   }
 
   let messages = [
-    "Connecting to server...",
-    "Bypassing security...",
-    "Fetching video data...",
+    "Connecting...",
+    "Bypassing firewall...",
+    "Fetching video...",
     "Preparing download...",
-    "Almost done..."
+    "Done ✔"
   ];
 
   let i = 0;
@@ -128,20 +167,47 @@ function start() {
 
   const interval = setInterval(() => {
     if (i < messages.length) {
-      const div = document.createElement("div");
+      let div = document.createElement("div");
       div.innerText = messages[i];
+      div.classList.add("rainbow");
       logs.appendChild(div);
+      logs.scrollTop = logs.scrollHeight;
       i++;
     } else {
       clearInterval(interval);
 
       setTimeout(() => {
-        // redirect to downloader
-        window.location.href = "https://9xbuddy.com/process?url=" + encodeURIComponent(url);
+        window.location.href =
+          "https://9xbuddy.com/process?url=" + encodeURIComponent(url);
       }, 1000);
     }
-  }, 700);
+  }, 600);
 }
+
+
+// fake IP animation
+function fakeIP() {
+  const ipText = document.getElementById("ipText");
+
+  let steps = [
+    "Scanning...",
+    "Detecting...",
+    "Bypassing...",
+    "Connecting...",
+    "192.168.0.1 ✔ CONNECTED"
+  ];
+
+  let i = 0;
+
+  setInterval(() => {
+    ipText.innerText = steps[i];
+    i++;
+    if (i >= steps.length) i = 0;
+  }, 2000);
+}
+
+fakeIP();
+
 </script>
 
 </body>
