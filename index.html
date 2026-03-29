@@ -82,136 +82,44 @@
         }
     </style>
 	</head>
+</head>
+
 <body>
 
-    <canvas id="matrix"></canvas>
+<div class="container">
+    <h2>🎬 Video Downloader</h2>
+    
+    <input type="text" id="videoUrl" placeholder="Video URL paste korun">
+    
+    <button onclick="downloadVideo()">Download</button>
+    
+    <div id="status"></div>
+</div>
 
-    <div class="container">
-        <h1>⚠️ HACKING VIDEO DOWNLOADER ⚠️<br><small>7 Rokon Color Matrix</small></h1>
-        
-        <input type="text" id="urlInput" placeholder="ভিডিও পেজের লিংক এখানে পেস্ট করো..." />
-        
-        <div style="text-align:center;">
-            <button onclick="findVideos()">🔍 Find Videos</button>
-            <button onclick="clearAll()">🗑️ Clear All</button>
-        </div>
+<script>
+function downloadVideo() {
+    const url = document.getElementById("videoUrl").value;
+    const status = document.getElementById("status");
 
-        <div class="status" id="status"></div>
-        <div class="results" id="results"></div>
-    </div>
+    if (!url) {
+        status.innerText = "⚠️ URL din!";
+        return;
+    }
 
-    <div class="scanline"></div>
+    try {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "video.mp4";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-    <script>
-        // Matrix 7 Color Background
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
+        status.innerText = "✅ Download start hoyeche!";
+    } catch (e) {
+        status.innerText = "❌ Download possible na!";
+    }
+}
+</script>
 
-        function resize() {
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF'];
-        const chars = "01ハッキングVIDEO DOWNLOAD ROOT ACCESS";
-        const fontSize = 14;
-        let drops = [];
-        let colorIndex = 0;
-
-        function resetDrops() {
-            const columns = Math.floor(canvas.width / fontSize);
-            drops = Array(columns).fill(1);
-        }
-        resetDrops();
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            for (let i = 0; i < drops.length; i++) {
-                ctx.fillStyle = colors[Math.floor(colorIndex) % 7];
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-            colorIndex += 0.07;
-        }
-        setInterval(drawMatrix, 35);
-
-        // Video Downloader
-        function findVideos() {
-            const url = document.getElementById('urlInput').value.trim();
-            const status = document.getElementById('status');
-            const results = document.getElementById('results');
-
-            if (!url) {
-                status.innerHTML = '<span style="color:red;">দয়া করে URL দিন!</span>';
-                return;
-            }
-
-            status.innerHTML = '<span style="color:#ffff00;">🔄 Hacking Mode: ভিডিও খোঁজা হচ্ছে...</span>';
-            results.innerHTML = '';
-
-            const win = window.open(url, '_blank');
-
-            if (!win) {
-                status.innerHTML = '<span style="color:red;">পপ-আপ ব্লক হয়েছে। Allow করুন।</span>';
-                return;
-            }
-
-            setTimeout(() => {
-                try {
-                    const videos = win.document.querySelectorAll('video');
-                    let found = 0;
-                    let html = '';
-
-                    videos.forEach((video, index) => {
-                        let src = video.currentSrc || video.src;
-                        if (!src && video.querySelector('source')) {
-                            src = video.querySelector('source').src;
-                        }
-                        if (src && src.length > 15) {
-                            found++;
-                            html += `
-                                <div class="download-box">
-                                    <strong>🎥 ভিডিও ${found}</strong><br>
-                                    <a href="${src}" target="_blank" download class="download-link">
-                                        ⬇️ DOWNLOAD VIDEO ${found}
-                                    </a>
-                                    <br><small style="color:#88ff88; word-break:break-all;">${src}</small>
-                                </div>
-                            `;
-                        }
-                    });
-
-                    if (found === 0) {
-                        html = '<p style="color:orange; text-align:center;">কোনো সরাসরি ভিডিও লিংক পাওয়া যায়নি।<br>F12 → Network → Media চেক করুন।</p>';
-                    }
-
-                    results.innerHTML = html;
-                    status.innerHTML = `<span style="color:#00ff00;">✅ ${found} টি ভিডিও পাওয়া গেছে</span>`;
-                } catch(e) {
-                    status.innerHTML = '<span style="color:orange;">Cross-origin সমস্যা। ম্যানুয়ালি চেক করুন।</span>';
-                }
-            }, 4000);
-        }
-
-        function clearAll() {
-            document.getElementById('results').innerHTML = '';
-            document.getElementById('status').innerHTML = '';
-            document.getElementById('urlInput').value = '';
-        }
-
-        // Enter key support
-        document.getElementById('urlInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') findVideos();
-        });
-    </script>
 </body>
 </html>
