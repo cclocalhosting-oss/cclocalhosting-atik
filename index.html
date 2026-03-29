@@ -1,213 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<title>7 Color Hacker UI</title>
-
-<style>
-body {
-  margin: 0;
-  background: black;
-  font-family: monospace;
-  color: #00ff00;
-}
-
-/* layout */
-#container {
-  display: flex;
-}
-
-/* left side */
-#main {
-  width: 65%;
-  padding: 20px;
-}
-
-/* right panel */
-#panel {
-  width: 35%;
-  border-left: 2px solid;
-  padding: 20px;
-}
-
-/* 🌈 7 color animation */
-.rainbow {
-  animation: rainbow 7s infinite;
-}
-
-@keyframes rainbow {
-  0% { color: red; text-shadow: 0 0 10px red; }
-  14% { color: orange; text-shadow: 0 0 10px orange; }
-  28% { color: yellow; text-shadow: 0 0 10px yellow; }
-  42% { color: lime; text-shadow: 0 0 10px lime; }
-  57% { color: cyan; text-shadow: 0 0 10px cyan; }
-  71% { color: blue; text-shadow: 0 0 10px blue; }
-  85% { color: violet; text-shadow: 0 0 10px violet; }
-  100% { color: red; text-shadow: 0 0 10px red; }
-}
-
-/* titles */
-h1 {
-  font-size: 28px;
-}
-
-h2 {
-  font-size: 20px;
-}
-
-/* downloader box */
-#downloader {
-  margin-top: 20px;
-  border: 1px solid;
-  padding: 20px;
-  width: 350px;
-}
-
-/* input */
-input {
-  width: 100%;
-  padding: 10px;
-  background: black;
-  border: 1px solid;
-}
-
-/* button */
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: black;
-  border: 1px solid;
-  cursor: pointer;
-}
-
-/* logs */
-#logs {
-  margin-top: 20px;
-  height: 200px;
-  overflow-y: auto;
-  border-top: 1px solid;
-  padding-top: 10px;
-}
-
-/* stat */
-.stat {
-  border: 1px solid;
-  padding: 10px;
-  margin-top: 10px;
-}
-
-/* blink */
-.blink {
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
-</style>
-
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacking Animation - 7 Rokon Color (Pause/Resume)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .terminal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 850px;
+            background: rgba(0, 15, 0, 0.95);
+            border: 3px solid #00ff41;
+            box-shadow: 0 0 40px #00ff41;
+            padding: 25px;
+            z-index: 2;
+            border-radius: 8px;
+            color: #00ff41;
+        }
+        .header {
+            background: #001100;
+            padding: 12px;
+            text-align: center;
+            font-size: 20px;
+            border-bottom: 3px solid #00ff41;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px #00ff41;
+        }
+        .output {
+            height: 280px;
+            overflow: hidden;
+            font-size: 15px;
+            line-height: 1.5;
+            text-shadow: 0 0 8px #00ff41;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 15px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #f50057;
+        }
+        .scanline {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(transparent, rgba(0,255,100,0.15), transparent);
+            animation: scan 3.5s linear infinite;
+            z-index: 3;
+            pointer-events: none;
+        }
+        @keyframes scan { 
+            0% {transform: translateY(-100%);} 
+            100% {transform: translateY(400%);} 
+        }
+    </style>
+	</head>
 <body>
 
-<div id="container">
+    <canvas id="matrix"></canvas>
 
-  <!-- LEFT -->
-  <div id="main">
-    <h1 class="rainbow">⚠ Atik </h1>
+    <div class="container">
+        <h1>⚠️ HACKING VIDEO DOWNLOADER ⚠️<br><small>7 Rokon Color Matrix</small></h1>
+        
+        <input type="text" id="urlInput" placeholder="ভিডিও পেজের লিংক এখানে পেস্ট করো..." />
+        
+        <div style="text-align:center;">
+            <button onclick="findVideos()">🔍 Find Videos</button>
+            <button onclick="clearAll()">🗑️ Clear All</button>
+        </div>
 
-    <div id="downloader" class="rainbow">
-      <h2 class="rainbow">🎬 All Video Downloader</h2>
-
-      <input class="rainbow" type="text" id="url" placeholder="Paste video link">
-
-      <button class="rainbow" onclick="start()">DOWNLOAD</button>
+        <div class="status" id="status"></div>
+        <div class="results" id="results"></div>
     </div>
 
-    <div id="logs" class="rainbow"></div>
-  </div>
+    <div class="scanline"></div>
 
-  <!-- RIGHT -->
-  <div id="panel">
-    <h2 class="rainbow">💻 HACKER PANEL</h2>
+    <script>
+        // Matrix 7 Color Background
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
 
-    <div class="stat rainbow">Status: <span class="blink">ONLINE</span></div>
-    <div class="stat rainbow">Server: <span class="blink">atik</span></div>
-    <div class="stat rainbow">Access Level: Bot</div>
+        function resize() {
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+        }
+        resize();
+        window.addEventListener('resize', resize);
 
-    <div class="stat rainbow">
-      IP: <span id="ipText">Checking...</span>
-    </div>
-  </div>
+        const colors = ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF'];
+        const chars = "01ハッキングVIDEO DOWNLOAD ROOT ACCESS";
+        const fontSize = 14;
+        let drops = [];
+        let colorIndex = 0;
 
-</div>
+        function resetDrops() {
+            const columns = Math.floor(canvas.width / fontSize);
+            drops = Array(columns).fill(1);
+        }
+        resetDrops();
 
-<script>
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-// downloader
-function start() {
-  let url = document.getElementById("url").value;
-  let logs = document.getElementById("logs");
+            for (let i = 0; i < drops.length; i++) {
+                ctx.fillStyle = colors[Math.floor(colorIndex) % 7];
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-  if (!url) {
-    alert("Enter link!");
-    return;
-  }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+            colorIndex += 0.07;
+        }
+        setInterval(drawMatrix, 35);
 
-  let messages = [
-    "Connecting...",
-    "Bypassing firewall...",
-    "Fetching video...",
-    "Done ✔
-  ];
+        // Video Downloader
+        function findVideos() {
+            const url = document.getElementById('urlInput').value.trim();
+            const status = document.getElementById('status');
+            const results = document.getElementById('results');
 
-  let i = 0;
-  logs.innerHTML = "";
+            if (!url) {
+                status.innerHTML = '<span style="color:red;">দয়া করে URL দিন!</span>';
+                return;
+            }
 
-  const interval = setInterval(() => {
-    if (i < messages.length) {
-      let div = document.createElement("div");
-      div.innerText = messages[i];
-      div.classList.add("rainbow");
-      logs.appendChild(div);
-      logs.scrollTop = logs.scrollHeight;
-      i++;
-    } else {
-      clearInterval(interval);
+            status.innerHTML = '<span style="color:#ffff00;">🔄 Hacking Mode: ভিডিও খোঁজা হচ্ছে...</span>';
+            results.innerHTML = '';
 
-      setTimeout(() => {
-        window.location.href =
-  "https://loader.to/api/button/?url=" + encodeURIComponent(url);
-      }, 1000);
-    }
-  }, 600);
-}
+            const win = window.open(url, '_blank');
 
+            if (!win) {
+                status.innerHTML = '<span style="color:red;">পপ-আপ ব্লক হয়েছে। Allow করুন।</span>';
+                return;
+            }
 
-// fake IP animation
-function fakeIP() {
-  const ipText = document.getElementById("ipText");
+            setTimeout(() => {
+                try {
+                    const videos = win.document.querySelectorAll('video');
+                    let found = 0;
+                    let html = '';
 
-  let steps = [
-    "Scanning...",
-    "Detecting...",
-    "Bypassing...",
-    "Connecting...",
-    "192.168.0.1 ✔ CONNECTED"
-  ];
+                    videos.forEach((video, index) => {
+                        let src = video.currentSrc || video.src;
+                        if (!src && video.querySelector('source')) {
+                            src = video.querySelector('source').src;
+                        }
+                        if (src && src.length > 15) {
+                            found++;
+                            html += `
+                                <div class="download-box">
+                                    <strong>🎥 ভিডিও ${found}</strong><br>
+                                    <a href="${src}" target="_blank" download class="download-link">
+                                        ⬇️ DOWNLOAD VIDEO ${found}
+                                    </a>
+                                    <br><small style="color:#88ff88; word-break:break-all;">${src}</small>
+                                </div>
+                            `;
+                        }
+                    });
 
-  let i = 0;
+                    if (found === 0) {
+                        html = '<p style="color:orange; text-align:center;">কোনো সরাসরি ভিডিও লিংক পাওয়া যায়নি।<br>F12 → Network → Media চেক করুন।</p>';
+                    }
 
-  setInterval(() => {
-    ipText.innerText = steps[i];
-    i++;
-    if (i >= steps.length) i = 0;
-  }, 2000);
-}
+                    results.innerHTML = html;
+                    status.innerHTML = `<span style="color:#00ff00;">✅ ${found} টি ভিডিও পাওয়া গেছে</span>`;
+                } catch(e) {
+                    status.innerHTML = '<span style="color:orange;">Cross-origin সমস্যা। ম্যানুয়ালি চেক করুন।</span>';
+                }
+            }, 4000);
+        }
 
-fakeIP();
+        function clearAll() {
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('status').innerHTML = '';
+            document.getElementById('urlInput').value = '';
+        }
 
-</script>
-
+        // Enter key support
+        document.getElementById('urlInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') findVideos();
+        });
+    </script>
 </body>
 </html>
