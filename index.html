@@ -4,102 +4,42 @@
   <meta charset="UTF-8" />
   <title>Simple Video Downloader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>VideoDrop Pro (Legal Downloader)</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #111827;
-      --panel-2: #1f2937;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #38bdf8;
-      --ok: #22c55e;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --border: #334155;
-    }
-
-    * { box-sizing: border-box; }
-
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
       background: #f0f0f0;
-      font-family: Inter, system-ui, Arial, sans-serif;
-      background: linear-gradient(160deg, #020617, var(--bg));
-      color: var(--text);
-      min-height: 100vh;
-      padding: 24px;
     }
     .container {
       max-width: 600px;
-
-    .app {
-      max-width: 1000px;
       margin: 0 auto;
       background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: grid;
-      gap: 16px;
-    }
-
-    .card {
-      background: rgba(17, 24, 39, 0.95);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
     }
     h1 {
       text-align: center;
       color: #333;
-
-    h1, h2, h3 { margin: 0 0 12px; }
-    p { margin: 0 0 10px; line-height: 1.5; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 14px;
     }
     .input-group {
       margin-bottom: 15px;
-
-    .row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
     }
     input {
-
-    input, select, button {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
       box-sizing: border-box;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: #0b1220;
-      color: var(--text);
-      padding: 10px 12px;
-      font-size: 14px;
     }
-
     button {
       padding: 10px 20px;
       background: #007BFF;
       color: white;
       border: none;
       border-radius: 4px;
-      width: auto;
       cursor: pointer;
-      background: #0ea5e9;
-      border: none;
-      font-weight: 600;
     }
     button:hover {
       background: #0056b3;
@@ -109,74 +49,163 @@
       text-align: center;
     }
     .result a {
-
-    button.secondary { background: #374151; }
-    button.danger { background: var(--danger); }
-    button:hover { filter: brightness(1.08); }
-
-    .muted { color: var(--muted); font-size: 13px; }
-    .badge {
       display: inline-block;
-      border-radius: 999px;
-      font-size: 12px;
-      padding: 3px 10px;
-      background: #082f49;
-      color: #7dd3fc;
-      margin-left: 8px;
-    }
-
-    .ok { color: var(--ok); }
-    .danger-text { color: var(--danger); }
-    .warning-text { color: var(--warning); }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
       margin-top: 10px;
       padding: 8px 16px;
       background: #28a745;
       color: white;
       border-radius: 4px;
-      font-size: 14px;
-    }
-
-    th, td {
-      border-bottom: 1px solid var(--border);
-      text-align: left;
-      padding: 10px 8px;
-      vertical-align: top;
-    }
-
-    .hidden { display: none; }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .tab-btn.active {
-      background: var(--ok);
-      color: #052e16;
-    }
-
-    .policy {
-      border-left: 3px solid var(--warning);
-      padding-left: 10px;
-      margin-top: 8px;
-    }
-
-    a.download-link {
-      color: #7dd3fc;
       text-decoration: none;
-      font-weight: 700;
     }
+  <title>VideoDrop Pro (Legal Downloader)</title>
+    <style>
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --ok: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --border: #334155;
+  --btn: #0ea5e9;
+}
 
-    @media (max-width: 600px) {
-      body { padding: 12px; }
-      .card { padding: 14px; }
-    }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Arial, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, #020617 55%);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: rgba(17, 24, 39, 0.94);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  backdrop-filter: blur(3px);
+}
+
+h1, h2, h3 { margin: 0 0 12px; }
+p { margin: 0 0 10px; line-height: 1.5; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input-group { margin-bottom: 10px; }
+label {
+  display: inline-block;
+  font-size: 13px;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0b1220;
+  color: var(--text);
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+button {
+  width: auto;
+  cursor: pointer;
+  background: var(--btn);
+  border: none;
+  font-weight: 600;
+}
+
+button.secondary { background: #374151; }
+button.danger { background: var(--danger); }
+button:hover { filter: brightness(1.08); }
+
+.muted { color: var(--muted); font-size: 13px; }
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 3px 10px;
+  background: #082f49;
+  color: #7dd3fc;
+  margin-left: 8px;
+}
+
+.ok { color: var(--ok); }
+.danger-text { color: var(--danger); }
+.warning-text { color: var(--warning); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  padding: 10px 8px;
+  vertical-align: top;
+}
+
+.hidden { display: none; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.tab-btn.active {
+  background: var(--ok);
+  color: #052e16;
+}
+
+.policy {
+  border-left: 3px solid var(--warning);
+  padding-left: 10px;
+  margin-top: 8px;
+}
+
+a.download-link {
+  color: #7dd3fc;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  body { padding: 12px; }
+  .card { padding: 14px; }
+}
+
   </style>
 </head>
 <body>
@@ -222,9 +251,6 @@
           <button onclick="registerUser()">Create Account</button>
         </div>
 
-    <div class="input-group">
-      <label for="videoUrl">Video URL:</label>
-      <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4" />
         <p id="authMessage" class="muted"></p>
       </div>
 
@@ -232,6 +258,9 @@
         <h2>User Dashboard</h2>
         <p id="sessionInfo" class="muted">Not logged in.</p>
 
+    <div class="input-group">
+      <label for="videoUrl">Video URL:</label>
+      <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4" />
         <div id="downloadPanel" class="hidden">
           <div class="input-group">
             <label for="videoUrl">Direct Video URL</label>
@@ -439,7 +468,6 @@
         return;
       }
 
-      // Very basic way: just open a link with 'download' attribute (works only if same origin or the server allows it)
       const mediaExtension = /\.(mp4|webm|mov|mkv|avi)(\?|#|$)/i.test(url);
       const allowed = isUrlAllowed(url);
 
@@ -450,6 +478,7 @@
         return;
       }
 
+      // Very basic way: just open a link with 'download' attribute (works only if same origin or the server allows it)
       addHistoryRecord(currentUser.username, url, "Created");
       renderHistory(currentUser.username);
 
