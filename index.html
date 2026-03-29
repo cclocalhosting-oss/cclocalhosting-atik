@@ -4,10 +4,32 @@
   <meta charset="UTF-8" />
   <title>Simple Video Downloader</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Animated Video Downloader Demo</title>
   <style>
+    :root {
+      --bg-1: #0f172a;
+      --bg-2: #1d4ed8;
+      --bg-3: #9333ea;
+      --panel: rgba(15, 23, 42, 0.84);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(120deg, var(--bg-1), var(--bg-2), var(--bg-3), var(--bg-1));
+      background-size: 300% 300%;
+      animation: colorShift 7s linear infinite;
+      display: grid;
+      place-items: center;
       padding: 20px;
       background: #f0f0f0;
     }
@@ -332,39 +354,86 @@ a.download-link {
         users.push({ username: "admin", password: "admin123", role: "admin" });
         localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
       }
+    @keyframes colorShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
       if (!localStorage.getItem(STORAGE_KEYS.domains)) {
         const defaults = ["example.com", "cdn.example.com", "files.example.org"];
         localStorage.setItem(STORAGE_KEYS.domains, JSON.stringify(defaults));
       }
+    .card {
+      width: min(720px, 100%);
+      background: var(--panel);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.3);
+      padding: 22px;
     }
 
     function getUsers() {
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.users) || "[]");
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.4rem, 4vw, 2rem);
     }
 
     function getCurrentUser() {
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.currentUser) || "null");
+    .muted {
+      color: var(--muted);
+      margin: 0 0 16px;
+      line-height: 1.5;
     }
 
     function setCurrentUser(user) {
       localStorage.setItem(STORAGE_KEYS.currentUser, JSON.stringify(user));
+    .row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     function getAllowedDomains() {
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.domains) || "[]");
+    input {
+      flex: 1 1 420px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(2, 6, 23, 0.7);
+      color: var(--text);
     }
 
     function setAllowedDomains(domains) {
       localStorage.setItem(STORAGE_KEYS.domains, JSON.stringify(domains));
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 18px;
+      background: var(--accent);
+      color: #052e16;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     function getHistory() {
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.history) || "[]");
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
     }
 
     function saveHistory(records) {
       localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(records));
+    #result {
+      margin-top: 14px;
+      min-height: 24px;
+      word-break: break-word;
     }
 
     function switchAuthTab(mode) {
@@ -372,6 +441,8 @@ a.download-link {
       const registerPanel = document.getElementById("registerPanel");
       const loginTab = document.getElementById("loginTab");
       const registerTab = document.getElementById("registerTab");
+    .error { color: var(--danger); }
+    .ok { color: #86efac; }
 
       if (mode === "login") {
         loginPanel.classList.remove("hidden");
@@ -384,7 +455,25 @@ a.download-link {
         registerTab.classList.add("active");
         loginTab.classList.remove("active");
       }
+    a.download-link {
+      color: #bae6fd;
+      font-weight: 700;
+      text-decoration: none;
     }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>All Video Download Code (Demo)</h1>
+    <p class="muted">
+      Paste a direct video URL (mp4/webm/mov/mkv/avi). This is a front-end demo only.
+      The 7-second animated color background is included as requested.
+    </p>
+
+    <div class="row">
+      <input id="videoUrl" type="url" placeholder="https://example.com/video.mp4" />
+      <button id="downloadBtn" type="button">Generate Download Link</button>
+    </div>
 
     function registerUser() {
       const username = document.getElementById("regUser").value.trim();
@@ -395,27 +484,39 @@ a.download-link {
         authMessage.innerHTML = "<span class='danger-text'>Username and password are required.</span>";
         return;
       }
+    <div id="result" aria-live="polite"></div>
+  </main>
 
       const users = getUsers();
       if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
         authMessage.innerHTML = "<span class='danger-text'>Username already exists.</span>";
         return;
       }
+  <script>
+    const videoInput = document.getElementById("videoUrl");
+    const downloadBtn = document.getElementById("downloadBtn");
+    const result = document.getElementById("result");
 
       users.push({ username, password, role: "user" });
       localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
       authMessage.innerHTML = "<span class='ok'>Account created. You can now login.</span>";
       switchAuthTab("login");
+    function isVideoFile(url) {
+      return /\.(mp4|webm|mov|mkv|avi)(\?|#|$)/i.test(url);
     }
 
     function login() {
       const username = document.getElementById("loginUser").value.trim();
       const password = document.getElementById("loginPass").value.trim();
       const authMessage = document.getElementById("authMessage");
+    function createDownloadLink() {
+      const url = videoInput.value.trim();
 
       const user = getUsers().find(u => u.username === username && u.password === password);
       if (!user) {
         authMessage.innerHTML = "<span class='danger-text'>Invalid username or password.</span>";
+      if (!url) {
+        result.innerHTML = '<span class="error">Please enter a video URL.</span>';
         return;
       }
 
@@ -446,6 +547,7 @@ a.download-link {
         const allowedDomains = getAllowedDomains();
         const hostname = url.hostname.toLowerCase();
         return allowedDomains.some(domain => hostname === domain || hostname.endsWith(`.${domain}`));
+        new URL(url);
       } catch {
         return false;
       }
@@ -459,6 +561,7 @@ a.download-link {
 
       if (!currentUser) {
         result.innerHTML = "<span class='danger-text'>Please login first.</span>";
+        result.innerHTML = '<span class="error">Invalid URL format.</span>';
         return;
       }
 
@@ -475,6 +578,8 @@ a.download-link {
         addHistoryRecord(currentUser.username, url, "Blocked");
         renderHistory(currentUser.username);
         result.innerHTML = "<span class='danger-text'>Blocked: URL must be from approved domains and direct video file links.</span>";
+      if (!isVideoFile(url)) {
+        result.innerHTML = '<span class="error">Only direct video file links are allowed.</span>';
         return;
       }
 
@@ -487,6 +592,8 @@ a.download-link {
         <a href="${url}" download="video" target="_blank">Download this video</a>
         <p class="ok">Link generated. Confirm you have rights before downloading.</p>
         <a class="download-link" href="${url}" download target="_blank" rel="noopener">Download Video</a>
+        <span class="ok">Link ready:</span>
+        <a class="download-link" href="${url}" download target="_blank" rel="noopener">Download video</a>
       `;
     }
 
@@ -585,6 +692,7 @@ a.download-link {
 
     seedDefaults();
     render();
+    downloadBtn.addEventListener("click", createDownloadLink);
   </script>
 </body>
 </html>
