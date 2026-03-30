@@ -10,10 +10,9 @@
         body {
             background: #000000;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             font-family: 'Consolas', monospace;
             color: #ffffff;
-            overflow: hidden;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -23,46 +22,39 @@
         .cmd-window {
             width: 1000px;
             max-width: 98vw;
-            height: 620px;
+            height: 640px;
             background: #000000;
-            border: 2px solid #00ff00;
-            box-shadow: 0 0 30px #00aa00;
+            border: 3px solid #00cc00;
+            box-shadow: 0 0 40px #00aa00;
             display: flex;
             flex-direction: column;
         }
 
         .title-bar {
-            background: #1e1e1e;
-            padding: 6px 12px;
+            background: #202020;
+            padding: 8px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #333;
-        }
-
-        .title {
-            color: #ffffff;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .content {
             flex: 1;
-            padding: 20px 25px;
-            font-size: 18px;
-            line-height: 1.6;
+            padding: 25px;
+            font-size: 17.5px;
+            line-height: 1.65;
             overflow-y: auto;
-            color: #cccccc;
         }
 
         .prompt {
             color: #00ff00;
-            margin: 8px 0;
         }
 
         .command-line {
             display: flex;
             align-items: center;
-            margin: 12px 0;
+            margin: 15px 0;
         }
 
         input {
@@ -70,47 +62,41 @@
             border: none;
             color: #ffffff;
             font-family: 'Consolas', monospace;
-            font-size: 18px;
+            font-size: 17.5px;
             flex: 1;
             outline: none;
         }
 
         .execute-btn {
-            background: #006600;
+            background: #003300;
             color: #00ff00;
-            border: 1px solid #00ff00;
-            padding: 6px 18px;
+            border: 2px solid #00ff00;
+            padding: 8px 25px;
             font-size: 16px;
             cursor: pointer;
-            margin-left: 10px;
         }
 
         .execute-btn:hover {
-            background: #00aa00;
+            background: #00cc00;
             color: black;
         }
 
         .loading {
             color: #ffff00;
-            margin: 15px 0;
+            margin: 20px 0;
             display: none;
-        }
-
-        .output {
-            margin-top: 20px;
-            color: #00ccff;
         }
 
         .thumbnail {
             max-width: 100%;
-            border: 2px solid #555;
+            border: 2px solid #444;
             margin: 15px 0;
         }
 
         .format {
-            background: #1a1a1a;
-            border-left: 4px solid #00ff00;
-            padding: 12px 18px;
+            background: #111111;
+            border-left: 5px solid #00ff00;
+            padding: 14px 20px;
             margin: 12px 0;
             display: flex;
             justify-content: space-between;
@@ -121,14 +107,11 @@
 <body>
 
     <div class="cmd-window">
-        
-        <!-- Title Bar -->
         <div class="title-bar">
-            <div class="title">Command Prompt - All Video Downloader</div>
-            <div style="color:#888;">■ □ ×</div>
+            <div>Command Prompt</div>
+            <div style="color:#666;">■ □ ×</div>
         </div>
 
-        <!-- Main Content -->
         <div class="content">
             <div>Microsoft Windows [Version 10.0.19045.6456]</div>
             <div>(c) Microsoft Corporation. All rights reserved.</div>
@@ -138,31 +121,29 @@
             <div class="prompt">C:\Users\Atiq Sharief&gt; Ready to process any video link...</div>
             <br>
 
-            <!-- Input -->
             <div class="command-line">
                 <span class="prompt">C:\Users\Atiq Sharief&gt;</span>
-                <input type="text" id="urlInput" placeholder="Paste video URL here..." autofocus>
+                <input type="text" id="urlInput" placeholder="Paste video link here..." autofocus>
                 <button class="execute-btn" onclick="getVideoInfo()">EXECUTE</button>
             </div>
 
-            <!-- Loading -->
             <div id="loading" class="loading">
-                ▓▓▓▓ Processing video data... Please wait ▓▓▓▓
+                ▓▓▓▓ PROCESSING VIDEO DATA... PLEASE WAIT ▓▓▓▓
             </div>
 
-            <!-- Result -->
-            <div id="info" class="output hidden">
-                <div>[+] Video information retrieved successfully.</div>
+            <div id="info" class="hidden">
+                <div style="color:#00ccff;">[+] Video information retrieved successfully.</div>
+                
                 <img id="thumbnail" class="thumbnail" alt="Thumbnail">
                 
-                <div style="margin: 15px 0;">
-                    <strong>TITLE:</strong> <span id="title" style="color:#ffffff;"></span>
+                <div style="margin: 15px 0 8px 0;">
+                    <strong>TITLE:</strong> <span id="title"></span>
                 </div>
                 <div>
                     <strong>DURATION:</strong> <span id="duration"></span> seconds
                 </div>
 
-                <div style="margin-top: 25px; color:#00ff88;">Available Formats:</div>
+                <div style="margin: 25px 0 10px 0; color:#00ff88;">Available Formats:</div>
                 <div id="formats"></div>
             </div>
         </div>
@@ -173,18 +154,13 @@
 
         async function getVideoInfo() {
             const url = document.getElementById("urlInput").value.trim();
-            if (!url) {
-                alert("Please paste a video link!");
-                return;
-            }
+            if (!url) return alert("Please enter a video link!");
 
             document.getElementById("loading").style.display = "block";
             document.getElementById("info").classList.add("hidden");
 
             try {
                 const res = await fetch(`${API_BASE}/info?url=${encodeURIComponent(url)}`);
-                if (!res.ok) throw new Error("Invalid link or server error");
-
                 const data = await res.json();
 
                 document.getElementById("thumbnail").src = data.thumbnail || "";
@@ -194,16 +170,13 @@
                 const formatsDiv = document.getElementById("formats");
                 formatsDiv.innerHTML = "";
 
-                data.formats.forEach(format => {
+                data.formats.forEach(f => {
                     const div = document.createElement("div");
                     div.className = "format";
                     div.innerHTML = `
-                        <span>
-                            <strong style="color:#00ff88;">${format.quality || 'Best'}p</strong> 
-                            • ${format.ext.toUpperCase()}
-                        </span>
-                        <button onclick="downloadVideo('${url}', '${format.format_id}')" 
-                                style="background:#004400; color:#00ff00; border:1px solid #00ff00; padding:6px 20px;">
+                        <span><strong>${f.quality || 'Best'}p</strong> • ${f.ext.toUpperCase()}</span>
+                        <button onclick="downloadVideo('${url}', '${f.format_id}')" 
+                                style="background:#004400;color:#00ff00;border:1px solid #00ff00;padding:7px 22px;">
                             DOWNLOAD
                         </button>
                     `;
@@ -213,8 +186,8 @@
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("info").classList.remove("hidden");
 
-            } catch (err) {
-                alert("Error: " + err.message);
+            } catch (e) {
+                alert("Error: " + e.message);
                 document.getElementById("loading").style.display = "none";
             }
         }
@@ -223,8 +196,7 @@
             window.open(`${API_BASE}/download?url=${encodeURIComponent(url)}&format_id=${formatId}`, "_blank");
         }
 
-        // Enter key support
-        document.getElementById("urlInput").addEventListener("keypress", (e) => {
+        document.getElementById("urlInput").addEventListener("keypress", e => {
             if (e.key === "Enter") getVideoInfo();
         });
     </script>
