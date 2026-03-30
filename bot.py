@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 import yt_dlp
 
-TOKEN = "8766736007:AAFbawj0o4_D6NaIN7ri0UmS4tSBYzA_RXs"
+TOKEN = "8741461871:AAH577I3Nppo9ocbo-IkOq--yKNU3Vp7h2g"
 
 async def start(update: Update, context):
     await update.message.reply_text("Send video link 🎬")
