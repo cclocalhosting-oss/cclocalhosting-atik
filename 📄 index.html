@@ -1,18 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Anime Downloader</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0f0f0f, #3b0764);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      padding: 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      background: #9333ea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #7e22ce;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .result img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .download-btn {
+      display: block;
+      background: #a855f7;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      text-decoration: none;
+      color: white;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #9333ea;
+    }
+
+    .loader {
+      margin-top: 10px;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>🎌 Anime Video Downloader</h1>
+<div class="container">
+  <h1>🎌 Anime Downloader</h1>
 
-<input type="text" id="url" placeholder="Paste video link here">
-<button onclick="download()">Download</button>
+  <input type="text" id="url" placeholder="Paste video link here...">
+  <button onclick="downloadVideo()">Download</button>
 
-<div id="result"></div>
+  <div class="loader" id="loader">⏳ Loading...</div>
 
-<script src="script.js"></script>
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+async function downloadVideo() {
+  const url = document.getElementById("url").value;
+  const loader = document.getElementById("loader");
+  const result = document.getElementById("result");
+
+  if (!url) {
+    alert("Please enter a link!");
+    return;
+  }
+
+  loader.style.display = "block";
+  result.innerHTML = "";
+
+  try {
+    const res = await fetch("http://localhost:5000/api/download", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+
+    let html = `
+      <h3>${data.title}</h3>
+      <img src="${data.thumbnail}">
+    `;
+
+    data.formats.forEach(f => {
+      html += `
+        <a class="download-btn" href="${f.url}" target="_blank">
+          Download ${f.format_note || "Video"}
+        </a>
+      `;
+    });
+
+    result.innerHTML = html;
+
+  } catch (err) {
+    result.innerHTML = "<p>❌ Error fetching video</p>";
+  }
+
+  loader.style.display = "none";
+}
+</script>
+
 </body>
 </html>
