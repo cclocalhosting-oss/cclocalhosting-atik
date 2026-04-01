@@ -1,413 +1,484 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cc — Creative Full-Stack Developer from Dhaka, Bangladesh">
-    <title>Cc | Creative Developer</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --accent: #00f5ff;
-        }
-        
-        * {
-            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
-        }
-        
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .heading-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .hero-bg {
-            background: linear-gradient(90deg, #0a0a0a, #1a0033, #0a0a0a);
-            background-size: 400% 400%;
-            animation: gradientShift 25s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .glass-nav {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(20px);
-        }
-        
-        .neon-text {
-            text-shadow: 
-                0 0 10px var(--accent),
-                0 0 20px var(--accent),
-                0 0 40px var(--accent);
-        }
-        
-        #particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--accent), transparent);
-        }
-        
-        .project-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 25px 50px -12px rgb(0 245 255 / 0.3);
-        }
-        
-        .typing::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-        
-        .skill-bar {
-            animation: skillFill 1.5s ease-in-out forwards;
-        }
-        
-        .float {
-            animation: float 6s ease-in-out infinite;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeDown • Video Downloader</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Particle Background */
+    .particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      background: rgba(0,0,0,0.3);
+    }
+
+    header {
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .logo span {
+      color: #00ffcc;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #00ffcc;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5rem;
+      padding: 0 5%;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #00ffcc, #ff00cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .download-form {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    #videoUrl {
+      flex: 1;
+      min-width: 300px;
+      padding: 1.2rem 1.5rem;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      color: white;
+      outline: none;
+    }
+
+    .download-btn {
+      padding: 1.2rem 2.5rem;
+      background: linear-gradient(45deg, #00ffcc, #ff00cc);
+      border: none;
+      border-radius: 50px;
+      color: black;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.4s;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(0, 255, 204, 0.4);
+    }
+
+    .supported {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.6rem;
+    }
+
+    .supported i:hover {
+      transform: scale(1.3);
+      color: #00ffcc;
+    }
+
+    /* Preview Card */
+    .preview-card {
+      width: 380px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .video-thumb {
+      position: relative;
+    }
+
+    .video-thumb img {
+      width: 100%;
+      display: block;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.6);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .play-overlay:hover {
+      background: #00ffcc;
+      color: black;
+    }
+
+    .info {
+      padding: 1.5rem;
+    }
+
+    /* Features */
+    .features {
+      padding: 5rem 5%;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.08);
+      padding: 2.5rem 1.5rem;
+      border-radius: 20px;
+      transition: 0.4s;
+      backdrop-filter: blur(10px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-15px);
+      background: rgba(255,255,255,0.15);
+    }
+
+    .feature-card i {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      color: #00ffcc;
+    }
+
+    /* Download Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #1a1a2e;
+      padding: 3rem 2.5rem;
+      border-radius: 20px;
+      width: 420px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(0, 255, 204, 0.3);
+    }
+
+    .progress-container {
+      height: 14px;
+      background: #333;
+      border-radius: 10px;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00ffcc, #ff00cc);
+      transition: width 0.4s ease;
+    }
+
+    .cancel-btn {
+      margin-top: 1rem;
+      padding: 12px 30px;
+      background: #ff3366;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    .hero h1 {
+      animation: float 7s ease-in-out infinite;
+    }
+
+    @keyframes particleFloat {
+      0% { transform: translateY(0) rotate(0deg); }
+      100% { transform: translateY(-1200px) rotate(720deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 100px;
+      }
+      .preview-card {
+        width: 90%;
+        max-width: 380px;
+      }
+      .download-form {
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
-<body class="bg-[#0a0a0a] text-white overflow-x-hidden">
-    <!-- NAVBAR -->
-    <nav class="glass-nav fixed top-0 left-0 right-0 z-50 border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-xl font-bold neon-text">C</div>
-                <h1 class="heading-font text-3xl tracking-tighter">Cc</h1>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-10 text-sm uppercase tracking-widest font-medium">
-                <a href="#home" onclick="smoothScrollTo('home')" class="hover:text-[#00f5ff]">HOME</a>
-                <a href="#about" onclick="smoothScrollTo('about')" class="hover:text-[#00f5ff]">ABOUT</a>
-                <a href="#skills" onclick="smoothScrollTo('skills')" class="hover:text-[#00f5ff]">SKILLS</a>
-                <a href="#projects" onclick="smoothScrollTo('projects')" class="hover:text-[#00f5ff]">PROJECTS</a>
-                <a href="#contact" onclick="smoothScrollTo('contact')" class="hover:text-[#00f5ff]">CONTACT</a>
-            </div>
-            
-            <div class="flex items-center gap-4">
-                <a href="#" onclick="downloadCV()" 
-                   class="px-6 py-2.5 text-sm font-semibold border border-[#00f5ff] text-[#00f5ff] rounded-3xl hover:bg-[#00f5ff] hover:text-black flex items-center gap-2">
-                    <i class="fas fa-download"></i> CV
-                </a>
-                <button onclick="toggleMobileMenu()" id="hamburger" class="md:hidden w-11 h-11 flex items-center justify-center text-2xl">
-                    <i class="fas fa-bars" id="menu-icon"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-[#0a0a0a] border-t border-white/10 px-6 py-6">
-            <div class="flex flex-col gap-6 text-lg font-medium">
-                <a href="#home" onclick="toggleMobileMenu();smoothScrollTo('home')" class="hover:text-[#00f5ff]">HOME</a>
-                <a href="#about" onclick="toggleMobileMenu();smoothScrollTo('about')" class="hover:text-[#00f5ff]">ABOUT</a>
-                <a href="#skills" onclick="toggleMobileMenu();smoothScrollTo('skills')" class="hover:text-[#00f5ff]">SKILLS</a>
-                <a href="#projects" onclick="toggleMobileMenu();smoothScrollTo('projects')" class="hover:text-[#00f5ff]">PROJECTS</a>
-                <a href="#contact" onclick="toggleMobileMenu();smoothScrollTo('contact')" class="hover:text-[#00f5ff]">CONTACT</a>
-            </div>
-        </div>
+<body>
+
+  <!-- Particle Background -->
+  <div class="particles" id="particles"></div>
+
+  <header>
+    <div class="logo">Vibe<span>Down</span></div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">How it Works</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <!-- HERO -->
-    <section id="home" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
-        <canvas id="particles" class="absolute inset-0"></canvas>
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content" data-aos="fade-up">
+        <h1>Download Videos <span class="gradient-text">Stylishly</span></h1>
+        <p>Fast, free & beautiful video downloader for YouTube, TikTok, Instagram and more.</p>
         
-        <div class="max-w-7xl mx-auto px-6 pt-24 md:pt-32 grid md:grid-cols-2 gap-12 items-center relative z-10">
-            <div class="space-y-8" data-aos="fade-up">
-                <div class="inline-flex items-center gap-2 px-5 py-2 rounded-3xl bg-white/10 border border-white/20 text-sm backdrop-blur-md">
-                    <div class="w-2 h-2 bg-[#00f5ff] rounded-full animate-pulse"></div>
-                    OPEN TO COLLABORATIONS — DHAKA, BANGLADESH
-                </div>
-                
-                <h1 class="heading-font text-6xl md:text-7xl lg:text-8xl leading-none tracking-tighter">
-                    HEY, I'M <span class="neon-text text-[#00f5ff]">CC</span>
-                </h1>
-                
-                <div class="text-3xl md:text-4xl font-light text-white/90 min-h-[1.2em]">
-                    A <span id="typing" class="typing font-semibold text-[#00f5ff]"></span>
-                </div>
-                
-                <p class="max-w-md text-lg text-white/70 leading-relaxed">
-                    Creative full-stack developer from Ramnagar, Dhaka. I craft immersive digital experiences that blend code, motion, and Bangladeshi storytelling.
-                </p>
-                
-                <div class="flex flex-wrap gap-4">
-                    <a onclick="smoothScrollTo('projects')" 
-                       class="px-8 py-4 bg-[#00f5ff] hover:bg-white text-black font-semibold text-lg rounded-3xl flex items-center gap-3 group">
-                        SEE MY WORK
-                        <i class="fas fa-arrow-right group-active:rotate-45"></i>
-                    </a>
-                    <a onclick="smoothScrollTo('contact')" 
-                       class="px-8 py-4 border-2 border-white/70 hover:border-[#00f5ff] text-white font-semibold text-lg rounded-3xl">
-                        LET'S TALK
-                    </a>
-                </div>
-            </div>
-            
-            <div class="relative hidden md:flex justify-center" data-aos="fade-left">
-                <div class="relative">
-                    <div class="w-80 h-80 rounded-full bg-gradient-to-br from-[#00f5ff] to-purple-500 opacity-20 blur-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 float"></div>
-                    
-                    <div class="w-80 h-80 border-4 border-[#00f5ff]/30 rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5">
-                        <img src="https://picsum.photos/id/1015/800/800" 
-                             alt="Cc Portrait"
-                             class="w-full h-full object-cover rounded-3xl">
-                    </div>
-                </div>
-            </div>
+        <div class="download-form">
+          <input type="text" id="videoUrl" placeholder="Paste video URL here..." required>
+          <button onclick="startDownload()" class="download-btn">
+            <i class="fas fa-download"></i> Download Now
+          </button>
         </div>
+
+        <div class="supported">
+          <span>Supported:</span>
+          <i class="fab fa-youtube"></i>
+          <i class="fab fa-tiktok"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-facebook"></i>
+        </div>
+      </div>
+
+      <!-- Preview Card -->
+      <div class="preview-card" data-aos="zoom-in">
+        <div class="video-thumb">
+          <img src="https://picsum.photos/id/1015/600/340" alt="Preview">
+          <div class="play-overlay"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="info">
+          <h3>Epic 4K Drone Footage</h3>
+          <p>12M views • 8:45</p>
+        </div>
+      </div>
     </section>
 
-    <!-- ABOUT -->
-    <section id="about" class="max-w-7xl mx-auto px-6 py-24">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <span class="uppercase text-[#00f5ff] text-sm tracking-[2px]">CHAPTER 01</span>
-                <h2 class="heading-font text-5xl md:text-6xl tracking-tighter" data-aos="fade-up">About Me</h2>
-            </div>
+    <!-- Features -->
+    <section class="features" data-aos="fade-up">
+      <h2>Why Choose VibeDown?</h2>
+      <div class="feature-grid">
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+          <i class="fas fa-bolt"></i>
+          <h3>Lightning Fast</h3>
+          <p>Downloads in seconds with high-speed servers.</p>
         </div>
-        
-        <div class="grid md:grid-cols-12 gap-12 items-center">
-            <div class="md:col-span-7" data-aos="fade-up">
-                <div class="prose prose-invert text-lg leading-relaxed text-white/80">
-                    <p>I'm Cc, a passionate creative full-stack developer based in Ramnagar, Dhaka. I turn ideas into living digital experiences — from sleek web apps to immersive 3D interfaces inspired by the vibrant energy of Bangladesh.</p>
-                    <p>With over 4 years of experience, I've worked on projects that blend modern technology with cultural storytelling. Whether it's building performant apps with Next.js or crafting interactive visuals with Three.js, my goal is to create interfaces that feel magical and meaningful.</p>
-                    <p>When I'm not coding, I enjoy street photography around Dhaka, exploring local street food, and experimenting with generative AI art.</p>
-                </div>
-                
-                <div class="mt-10 grid grid-cols-3 gap-8">
-                    <div data-aos="fade-up" data-aos-delay="100">
-                        <div class="text-5xl font-bold text-[#00f5ff]">4+</div>
-                        <p class="text-white/60">Years crafting digital magic</p>
-                    </div>
-                    <div data-aos="fade-up" data-aos-delay="200">
-                        <div class="text-5xl font-bold text-[#00f5ff]">15+</div>
-                        <p class="text-white/60">Projects delivered</p>
-                    </div>
-                    <div data-aos="fade-up" data-aos-delay="300">
-                        <div class="text-5xl font-bold text-[#00f5ff]">Dhaka</div>
-                        <p class="text-white/60">Based in Bangladesh</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="md:col-span-5 space-y-6">
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8" data-aos="fade-left">
-                    <i class="fas fa-lightbulb text-4xl text-[#00f5ff] mb-4"></i>
-                    <h4 class="text-xl font-semibold">Current Obsession</h4>
-                    <p class="text-white/70">AI-enhanced interfaces, spatial web experiences, and blending Bengali aesthetics with modern design systems.</p>
-                </div>
-            </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+          <i class="fas fa-video"></i>
+          <h3>Multiple Qualities</h3>
+          <p>1080p, 4K, MP3 audio & more.</p>
         </div>
+        <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+          <i class="fas fa-shield-alt"></i>
+          <h3>100% Safe</h3>
+          <p>No ads, no malware, privacy protected.</p>
+        </div>
+      </div>
     </section>
+  </main>
 
-    <!-- SKILLS -->
-    <section id="skills" class="bg-[#111111] py-24">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex justify-between items-end mb-12">
-                <div>
-                    <span class="uppercase text-[#00f5ff] text-sm tracking-[2px]">CHAPTER 02</span>
-                    <h2 class="heading-font text-5xl md:text-6xl tracking-tighter" data-aos="fade-up">My Superpowers</h2>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fab fa-react"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">React / Next.js</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[95%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fab fa-js"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">TypeScript / JS</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[92%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fab fa-tailwindcss"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">Tailwind + Motion</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[90%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fas fa-cube"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">Three.js / WebGL</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[78%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fas fa-brain"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">AI Tools &amp; GenAI</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[85%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-3xl p-8 hover:border-[#00f5ff]/50 group" data-aos="zoom-in" data-aos-delay="500">
-                    <div class="text-[#00f5ff] text-5xl mb-6"><i class="fas fa-palette"></i></div>
-                    <h4 class="text-xl font-semibold mb-1">UI/UX + Figma</h4>
-                    <div class="h-2 bg-white/10 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full w-[88%] bg-gradient-to-r from-[#00f5ff] to-purple-400"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Download Progress Modal -->
+  <div id="progressModal" class="modal">
+    <div class="modal-content">
+      <h2>Downloading Video...</h2>
+      <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <p id="statusText">Preparing your video...</p>
+      <button onclick="closeModal()" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
 
-    <!-- PROJECTS -->
-    <section id="projects" class="max-w-7xl mx-auto px-6 py-24">
-        <div class="flex justify-between items-end mb-12">
-            <div>
-                <span class="uppercase text-[#00f5ff] text-sm tracking-[2px]">CHAPTER 03</span>
-                <h2 class="heading-font text-5xl md:text-6xl tracking-tighter" data-aos="fade-up">Selected Works</h2>
-            </div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Project 1 -->
-            <div class="project-card bg-white/5 border border-white/10 rounded-3xl overflow-hidden group" data-aos="fade-up">
-                <div class="aspect-video bg-gradient-to-br from-cyan-500 to-blue-600 relative overflow-hidden">
-                    <div class="absolute inset-0 flex items-center justify-center text-6xl opacity-30">01</div>
-                </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-semibold">Rokto — Blood Donation Platform</h3>
-                    <p class="text-white/60 mt-3">Real-time blood donor matching app with map integration, built with Next.js, TypeScript &amp; Supabase. Designed to save lives across Bangladesh.</p>
-                    <div class="flex gap-2 mt-6 text-xs">
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Next.js</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Supabase</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Maps</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project 2 -->
-            <div class="project-card bg-white/5 border border-white/10 rounded-3xl overflow-hidden group" data-aos="fade-up" data-aos-delay="150">
-                <div class="aspect-video bg-gradient-to-br from-purple-500 to-pink-500 relative overflow-hidden">
-                    <div class="absolute inset-0 flex items-center justify-center text-6xl opacity-30">02</div>
-                </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-semibold">Lumina — 3D Cultural Archive</h3>
-                    <p class="text-white/60 mt-3">Immersive WebGL experience showcasing Bangladeshi heritage through interactive 3D models and storytelling. Built with Three.js + React.</p>
-                    <div class="flex gap-2 mt-6 text-xs">
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Three.js</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">GSAP</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Framer Motion</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project 3 -->
-            <div class="project-card bg-white/5 border border-white/10 rounded-3xl overflow-hidden group" data-aos="fade-up" data-aos-delay="300">
-                <div class="aspect-video bg-gradient-to-br from-emerald-500 to-teal-500 relative overflow-hidden">
-                    <div class="absolute inset-0 flex items-center justify-center text-6xl opacity-30">03</div>
-                </div>
-                <div class="p-8">
-                    <h3 class="text-2xl font-semibold">BazaarFlow — E-commerce Dashboard</h3>
-                    <p class="text-white/60 mt-3">Modern SaaS dashboard for local artisans with AI-powered inventory suggestions. Built with Tailwind, Next.js and Recharts.</p>
-                    <div class="flex gap-2 mt-6 text-xs">
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Next.js</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">Tailwind</span>
-                        <span class="bg-white/10 px-4 py-1 rounded-3xl">AI Integration</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer style="text-align:center; padding:2rem; opacity:0.7;">
+    &copy; 2026 VibeDown • Made with ❤️ 
+  </footer>
 
-    <!-- CONTACT -->
-    <section id="contact" class="bg-gradient-to-b from-[#111111] to-[#0a0a0a] py-24">
-        <div class="max-w-3xl mx-auto px-6 text-center">
-            <span class="uppercase text-[#00f5ff] text-sm tracking-[2px]">CHAPTER 04</span>
-            <h2 class="heading-font text-5xl md:text-6xl tracking-tighter mt-4">Let's Create Something Epic</h2>
-            <p class="mt-6 text-white/70 text-xl">Whether it's a web app, 3D experience, or collaboration — I'm always excited to connect.</p>
-            
-            <form id="contact-form" class="mt-12 space-y-8" onsubmit="handleSubmit(event)">
-                <div class="grid md:grid-cols-2 gap-8">
-                    <input type="text" id="name" placeholder="Your Name" required
-                           class="w-full bg-white/10 border border-white/20 focus:border-[#00f5ff] rounded-3xl px-8 py-6 text-lg outline-none">
-                    <input type="email" id="email" placeholder="Your Email" required
-                           class="w-full bg-white/10 border border-white/20 focus:border-[#00f5ff] rounded-3xl px-8 py-6 text-lg outline-none">
-                </div>
-                <textarea id="message" rows="6" placeholder="Tell me about your project..." required
-                          class="w-full bg-white/10 border border-white/20 focus:border-[#00f5ff] rounded-3xl px-8 py-6 text-lg outline-none resize-none"></textarea>
-                
-                <button type="submit"
-                        class="w-full px-16 py-7 bg-gradient-to-r from-[#00f5ff] to-purple-500 text-black text-xl font-semibold rounded-3xl flex items-center justify-center gap-4">
-                    SEND MESSAGE <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-            
-            <p class="mt-10 text-white/60">Or reach me at <span class="text-[#00f5ff]">hello@cc.dev</span></p>
-        </div>
-    </section>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS animation
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
 
-    <!-- FOOTER -->
-    <footer class="bg-black py-12 border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-white/50">
-            © 2026 Cc • Made in Dhaka with ❤️ and lots of chai
-        </div>
-    </footer>
+    // Particle Background
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 80; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = Math.random() * 6 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.background = 'rgba(0, 255, 204, 0.7)';
+        particle.style.borderRadius = '50%';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.opacity = Math.random() * 0.6 + 0.3;
+        particle.style.animation = `particleFloat ${Math.random() * 25 + 15}s linear infinite`;
+        container.appendChild(particle);
+      }
+    }
 
-    <script>
-        // (All scripts from previous version — particles, typing, AOS, smooth scroll, mobile menu, form handler, confetti, etc.)
-        // For brevity, I'm keeping the same robust scripts as before. Paste them here if needed, or use the previous full code and only replace content sections.
+    createParticles();
 
-        function createParticles() { /* same as before */ }
-        function startTyping() {
-            const texts = ["creative developer", "3D enthusiast", "full-stack builder", "storyteller with code"];
-            // ... same typing logic
+    // Fake Download Animation
+    function startDownload() {
+      const url = document.getElementById('videoUrl').value.trim();
+      if (!url) {
+        alert("Please paste a video URL first!");
+        return;
+      }
+
+      const modal = document.getElementById('progressModal');
+      modal.style.display = 'flex';
+
+      const progressBar = document.getElementById('progressBar');
+      const statusText = document.getElementById('statusText');
+
+      let progress = 0;
+      progressBar.style.width = '0%';
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 20 + 8;
+        if (progress > 100) progress = 100;
+
+        progressBar.style.width = progress + '%';
+
+        if (progress < 35) statusText.textContent = "Fetching video...";
+        else if (progress < 70) statusText.textContent = "Processing quality...";
+        else statusText.textContent = "Almost ready...";
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            statusText.textContent = "✅ Download Completed!";
+            setTimeout(() => {
+              closeModal();
+              alert("🎉 Video downloaded successfully! (Demo Mode)");
+            }, 1200);
+          }, 800);
         }
-        function initAOS() { AOS.init({duration: 1000, once: true}); }
-        function smoothScrollTo(section) { /* same */ }
-        function toggleMobileMenu() { /* same */ }
-        function downloadCV() { /* same toast */ }
-        function handleSubmit(e) { /* same with confetti */ }
-        
-        window.onload = () => {
-            createParticles();
-            startTyping();
-            initAOS();
-            console.log('%c✅ Cc Portfolio — Customized & Ready!', 'color:#00f5ff; font-weight:bold');
-        };
-    </script>
+      }, 180);
+    }
+
+    function closeModal() {
+      document.getElementById('progressModal').style.display = 'none';
+    }
+
+    // Press Enter to download
+    document.getElementById('videoUrl').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') startDownload();
+    });
+  </script>
 </body>
 </html>
