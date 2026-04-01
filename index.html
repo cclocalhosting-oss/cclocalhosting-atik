@@ -30,3 +30,30 @@
         <div class="supported">
         </div>
     </div>
+<body>
+    <h2>Video Downloader</h2>
+
+    <input type="text" id="videoUrl" placeholder="Enter video URL" style="width:300px;">
+    <br><br>
+
+    <button onclick="downloadVideo()">Download</button>
+
+    <p id="status"></p>
+
+    <script>
+        function downloadVideo() {
+            let url = document.getElementById("videoUrl").value;
+
+            if (!url) {
+                document.getElementById("status").innerText = "Please enter a URL!";
+                return;
+            }
+
+            // Simple redirect (you need backend for real downloading)
+            document.getElementById("status").innerText = "Processing...";
+
+            // Example: open video link
+            window.open(url, "_blank");
+        }
+    </script>
+</body>
