@@ -30,10 +30,16 @@
         <div class="supported">
         </div>
     </div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Downloader</title>
+</head>
 <body>
+
     <h2>Video Downloader</h2>
 
-    <input type="text" id="videoUrl" placeholder="Enter video URL" style="width:300px;">
+    <input type="text" id="url" placeholder="Enter video URL" style="width:300px;">
     <br><br>
 
     <button onclick="downloadVideo()">Download</button>
@@ -41,19 +47,42 @@
     <p id="status"></p>
 
     <script>
-        function downloadVideo() {
-            let url = document.getElementById("videoUrl").value;
+        async function downloadVideo() {
+            const url = document.getElementById("url").value;
 
             if (!url) {
-                document.getElementById("status").innerText = "Please enter a URL!";
+                document.getElementById("status").innerText = "Enter URL!";
                 return;
             }
 
-            // Simple redirect (you need backend for real downloading)
-            document.getElementById("status").innerText = "Processing...";
+            document.getElementById("status").innerText = "Downloading...";
 
-            // Example: open video link
-            window.open(url, "_blank");
+            const response = await fetch("/download", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ url })
+            });
+
+            if (!response.ok) {
+                document.getElementById("status").innerText = "Failed!";
+                return;
+            }
+
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = downloadUrl;
+            a.download = "video.mp4";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            document.getElementById("status").innerText = "Done!";
         }
     </script>
+
 </body>
+</html>
