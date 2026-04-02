@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video Downloader</title>
+</head>
+<body>
+
+  <h2>Video Downloader</h2>
+
+  <input type="text" id="videoUrl" placeholder="Enter video URL" style="width:300px;">
+  <button onclick="downloadVideo()">Download</button>
+
+  <script>
+    function downloadVideo() {
+      let url = document.getElementById("videoUrl").value;
+
+      let a = document.createElement("a");
+      a.href = url;
+      a.download = "video.mp4";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  </script>
+
+</body>
+</html>
